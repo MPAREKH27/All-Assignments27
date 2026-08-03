@@ -1,0 +1,28 @@
+{
+  "files": {
+    "main.css": "/static/css/main.2ca78b44.css",
+    "main.js": "/static/js/main.d554eece.js",
+    "static/js/453.1407b060.chunk.js": "/static/js/453.1407b060.chunk.js",
+    "static/media/My Photo.png": "/static/media/My Photo.37491a07b214ab973e9c.png",
+    "static/media/anabeya.JPG": "/static/media/anabeya.ed4c92396139661f5988.JPG",
+    "static/media/P1.JPG": "/static/media/P1.9f80244abc07d6bd6c5e.JPG",
+    "static/media/nexsky.JPG": "/static/media/nexsky.2f9b47d2a2e11ee07e66.JPG",
+    "static/media/chemistrylab.png": "/static/media/chemistrylab.18f7b17d37d0bfd6edb7.png",
+    "static/media/P3.JPG": "/static/media/P3.53a692c2e9c3c8671127.JPG",
+    "static/media/mrkhan.JPG": "/static/media/mrkhan.952a369e1b2ccbd330ce.JPG",
+    "static/media/P2.JPG": "/static/media/P2.b394e19178004e1e6105.JPG",
+    "static/media/userapp.JPG": "/static/media/userapp.738c19d0f78ce6589c80.JPG",
+    "static/media/doctorapp.JPG": "/static/media/doctorapp.a5ed25b8d8d4b68f8374.JPG",
+    "static/media/Three.js_Icon.svg.png": "/static/media/Three.js_Icon.svg.192edb8bb13191969a87.png",
+    "static/media/snack.png": "/static/media/snack.89cca87fc7c791297a9c.png",
+    "static/media/next-js.svg": "/static/media/next-js.159612e7dd3fd0c82e640be93f436066.svg",
+    "index.html": "/index.html",
+    "main.2ca78b44.css.map": "/static/css/main.2ca78b44.css.map",
+    "main.d554eece.js.map": "/static/js/main.d554eece.js.map",
+    "453.1407b060.chunk.js.map": "/static/js/453.1407b060.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.2ca78b44.css",
+    "static/js/main.d554eece.js"
+  ]
+}

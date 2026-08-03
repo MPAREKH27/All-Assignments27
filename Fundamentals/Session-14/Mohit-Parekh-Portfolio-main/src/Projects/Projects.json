@@ -1,0 +1,60 @@
+
+[
+  {
+    "title": "Website for Anabeya Collection",
+    "description": "Recently, I had the opportunity to create a fully functional e-commerce website for Anabeya Collection, a clothing store, using React. This website showcases their extensive collection of clothing items in a user-friendly and visually appealing manner. It includes a Home page, Product Listings, Product Details, Shopping Cart, Checkout, and Contact Us page. This project allowed me to implement various e-commerce functionalities and improve my web development skills.",
+    "image": "Projects/anabeya.JPG",
+    "liveLink": "https://anabeya-collection.vercel.app/",
+    "githubLink": "https://github.com/YourGithubUsername/AnabeyaCollection"
+  }
+,  
+  {
+    "title": "Website for NexSky",
+    "description": "Recently I have got an oppertuinity to create a fully functional website for NexSky (an IT Company) using React. This website contains the Home page, About, Contact, Members, Projects and Contact Us Page as well. It was one of my best project",
+    "image": "Projects/nexsky.JPG",
+    "liveLink": "https://nexsky.netlify.app/",
+    "githubLink": "https://github.com/Alikhan23M/NexSky---IT-Solutions"
+  },
+  {
+    "title": "Website for MR Khan Solar System",
+    "description": "Recently, I had the opportunity to create a fully functional website for MR Khan Solar System using React. This website showcases their work and services in a professional manner. It includes a Home page, About Us, Services, Projects, and Contact Us page, providing a seamless experience for visitors. It was one of the projects I am most proud of.",
+    "image": "Projects/mrkhan.JPG",
+    "liveLink": "https://mrkhan-solarsystem.vercel.app/",
+    "githubLink": "https://github.com/alikhan-devs/"
+  }
+,  
+// {
+//   "title": "Virtual Chemistry Lab",
+//   "description": "During my learning journey, I developed a Virtual Chemistry Lab project where users can perform various chemical reactions virtually. This interactive platform allows users to experiment with different chemicals and observe the results without the risks associated with a physical lab. The project includes a user-friendly interface, detailed instructions for each experiment, and visual representations of reactions. It was an exciting project that helped me improve my skills in simulation and interactive design.",
+//   "image": "Projects/chemistrylab.png",
+//   "liveLink": "https://github.com/alikhan-devs/",
+//   "githubLink": "https://github.com/alikhan-devs/HTML-CSS-JS/"
+// }
+,
+{
+  "title": "Snack Game",
+  "description": "During my learning journey, I developed a Snack Game project with various exciting features. This game includes amazing sound integration to enhance the user experience, a high score feature to keep track of top scores, and a grid layout for a smooth gameplay experience. This project helped me improve my JavaScript skills and learn about game development fundamentals.",
+  "image": "Projects/snack.png",
+  "liveLink": "https://github.com/alikhan-devs/",
+  "githubLink": "https://github.com/alikhan-devs/HTML-CSS-JS"
+}
+,
+
+    {
+      "title": "Simple Product Landing Page",
+      "description": "This was my first Responsive Project I have created for Anabeya Collectios. In this Project I learned how to create responsive product landing page and how to redirect a user to whatsapp and automatically sending the details of the product to the seller",
+      "image": "Projects/P1.JPG",
+      "liveLink": "https://alikhan23m.github.io/anabeya-collections/",
+      "githubLink": "https://github.com/Alikhan23M/anabeya-collections"
+    },
+    {
+      "title": "Text Analyzer",
+      "description": "This was my first Project when I started learning React Js. This web app basically analize the text and tell the user that how many words, character, sentences, paragraphs and punctuations are there. User can remove extra spaces, convert to upper or lover case and so many things. ",
+      "image": "Projects/P2.JPG",
+      "liveLink": "https://alikhan23m.github.io/Text-Analyzer/",
+      "githubLink": "https://github.com/Alikhan23M/Text-Analyzer"
+    }
+    
+    
+  ]
+  
