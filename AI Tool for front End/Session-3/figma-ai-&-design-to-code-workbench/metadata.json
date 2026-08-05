@@ -1,0 +1,6 @@
+{
+  "name": "Figma AI & Design to Code Workbench",
+  "description": "An interactive UI design and handoff studio featuring Music Playlist Manager wireframes, Uizard food delivery prototypes, Figma-to-Code sandbox, pure HTML/CSS movie card generator, and design handoff workflow guidelines.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

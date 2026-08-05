@@ -1,0 +1,6 @@
+{
+  "name": "E-Commerce SEO Master Suite",
+  "description": "Comprehensive SEO optimization suite featuring meta tags, Google SERP previews, blog content generation, plagiarism analysis, copy editing, and keyword clustering.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

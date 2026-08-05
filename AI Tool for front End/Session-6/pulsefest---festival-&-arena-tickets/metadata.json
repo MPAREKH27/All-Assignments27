@@ -1,0 +1,6 @@
+{
+  "name": "PulseFest - Festival & Arena Tickets",
+  "description": "High-energy nightlife music festival and stadium arena ticketing platform with BookMyShow convenience and IPL match-day hype.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

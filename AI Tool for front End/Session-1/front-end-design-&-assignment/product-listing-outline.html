@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flipkart Style Product Listing Page</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    /* Flipkart Brand Colors & Styling */
+    :root {
+      --fk-blue: #2874f0;
+      --fk-yellow: #ffe500;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans text-gray-800 antialiased">
+
+  <!-- ==========================================
+       1. HEADER SECTION (Flipkart Blue Navbar)
+       ========================================== -->
+  <header class="bg-[#2874f0] text-white sticky top-0 z-50 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 py-2.5 flex items-center justify-between gap-4">
+      
+      <!-- Brand Logo & Plus Sub-badge -->
+      <div class="flex items-center space-x-2 shrink-0">
+        <a href="#" class="flex flex-col items-start leading-none">
+          <span class="text-xl font-bold italic tracking-wide">Flipkart</span>
+          <span class="text-[11px] italic text-gray-200 font-medium flex items-center gap-0.5">
+            Explore <span class="text-[#ffe500] font-semibold">Plus</span>
+            <i class="fa-solid fa-[#ffe500] fa-plus text-[9px] text-[#ffe500]"></i>
+          </span>
+        </a>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="flex-1 max-w-2xl relative">
+        <form action="#" method="GET" class="flex items-center">
+          <input 
+            type="text" 
+            placeholder="Search for products, brands and more" 
+            class="w-full py-2 px-4 pr-10 text-sm text-gray-900 bg-white rounded-sm focus:outline-none shadow-inner"
+            aria-label="Search Flipkart"
+          />
+          <button type="submit" class="absolute right-3 text-[#2874f0] hover:text-blue-700">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </form>
+      </div>
+
+      <!-- Header Action Items -->
+      <nav class="flex items-center space-x-6 text-sm font-semibold">
+        <!-- Login Button -->
+        <a href="#" class="bg-white text-[#2874f0] px-8 py-1 rounded-sm hover:bg-gray-100 transition shadow-sm font-medium">
+          Login
+        </a>
+
+        <!-- Become a Seller -->
+        <a href="#" class="hidden md:inline-block hover:text-gray-200">
+          Become a Seller
+        </a>
+
+        <!-- More Dropdown -->
+        <div class="relative group hidden md:block">
+          <button class="flex items-center gap-1 hover:text-gray-200 py-2">
+            <span>More</span>
+            <i class="fa-solid fa-chevron-down text-xs transition-transform group-hover:rotate-180"></i>
+          </button>
+        </div>
+
+        <!-- Cart -->
+        <a href="#" class="flex items-center gap-2 hover:text-gray-200">
+          <div class="relative">
+            <i class="fa-solid fa-cart-shopping text-lg"></i>
+            <span class="absolute -top-2 -right-2 bg-[#ffe500] text-[#2874f0] text-[10px] font-bold px-1.5 py-0.2 rounded-full">3</span>
+          </div>
+          <span class="hidden sm:inline">Cart</span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- Category Strip (Sub-header) -->
+    <div class="bg-white text-gray-700 text-xs font-semibold border-b shadow-sm overflow-x-auto">
+      <div class="max-w-7xl mx-auto px-4 py-2.5 flex items-center justify-between min-w-[700px]">
+        <a href="#" class="hover:text-[#2874f0] flex items-center gap-1">Electronics <i class="fa-solid fa-chevron-down text-[9px] text-gray-400"></i></a>
+        <a href="#" class="hover:text-[#2874f0] flex items-center gap-1">TVs & Appliances <i class="fa-solid fa-chevron-down text-[9px] text-gray-400"></i></a>
+        <a href="#" class="hover:text-[#2874f0] flex items-center gap-1">Men <i class="fa-solid fa-chevron-down text-[9px] text-gray-400"></i></a>
+        <a href="#" class="hover:text-[#2874f0] flex items-center gap-1">Women <i class="fa-solid fa-chevron-down text-[9px] text-gray-400"></i></a>
+        <a href="#" class="hover:text-[#2874f0] flex items-center gap-1">Baby & Kids <i class="fa-solid fa-chevron-down text-[9px] text-gray-400"></i></a>
+        <a href="#" class="hover:text-[#2874f0] flex items-center gap-1">Home & Furniture <i class="fa-solid fa-chevron-down text-[9px] text-gray-400"></i></a>
+        <a href="#" class="hover:text-[#2874f0] flex items-center gap-1">Sports, Books & More <i class="fa-solid fa-chevron-down text-[9px] text-gray-400"></i></a>
+        <a href="#" class="text-[#2874f0] font-bold">Offer Zone</a>
+      </div>
+    </div>
+  </header>
+
+
+  <!-- ==========================================
+       2. MAIN CONTENT AREA (Breadcrumb + Sidebar + Grid)
+       ========================================== -->
+  <main class="max-w-7xl mx-auto px-2 sm:px-4 py-3">
+
+    <!-- Breadcrumb & Results Header -->
+    <div class="bg-white p-3 rounded-sm shadow-sm mb-2 text-xs flex flex-wrap items-center justify-between gap-2">
+      <div class="flex items-center space-x-1 text-gray-500">
+        <a href="#" class="hover:text-[#2874f0]">Home</a>
+        <span>/</span>
+        <a href="#" class="hover:text-[#2874f0]">Electronics</a>
+        <span>/</span>
+        <a href="#" class="hover:text-[#2874f0]">Audio</a>
+        <span>/</span>
+        <span class="text-gray-900 font-semibold">Wireless Headphones</span>
+      </div>
+      <div class="text-gray-500">
+        Showing 1 – 24 of 1,420 results for "<span class="font-semibold text-gray-800">wireless headphones</span>"
+      </div>
+    </div>
+
+    <!-- 2-Column Layout: Filter Sidebar & Product Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-3">
+
+      <!-- LEFT SIDEBAR: Filters Section -->
+      <aside class="lg:col-span-1 bg-white rounded-sm shadow-sm p-4 h-fit border border-gray-200">
+        <div class="flex items-center justify-between pb-3 border-b mb-3">
+          <h2 class="font-bold text-base text-gray-800">Filters</h2>
+          <button class="text-xs text-[#2874f0] font-semibold hover:underline">CLEAR ALL</button>
+        </div>
+
+        <!-- Categories Filter -->
+        <div class="py-3 border-b">
+          <h3 class="text-xs font-bold text-gray-700 uppercase mb-2">Category</h3>
+          <ul class="text-xs space-y-1.5 text-gray-600">
+            <li class="font-medium text-[#2874f0] flex items-center justify-between">
+              <span><i class="fa-solid fa-chevron-left text-[10px] mr-1"></i> Headphones</span>
+            </li>
+            <li class="pl-3 hover:text-[#2874f0] cursor-pointer">Bluetooth Headphones</li>
+            <li class="pl-3 hover:text-[#2874f0] cursor-pointer">True Wireless Earbuds</li>
+            <li class="pl-3 hover:text-[#2874f0] cursor-pointer">Over-Ear Headsets</li>
+          </ul>
+        </div>
+
+        <!-- Price Range Filter -->
+        <div class="py-3 border-b">
+          <h3 class="text-xs font-bold text-gray-700 uppercase mb-2">Price</h3>
+          <input type="range" min="500" max="25000" class="w-full accent-[#2874f0]" />
+          <div class="flex items-center justify-between gap-2 mt-2 text-xs">
+            <select class="border rounded p-1 text-gray-700 w-full">
+              <option>₹500</option>
+              <option>₹1,000</option>
+              <option>₹2,000</option>
+            </select>
+            <span class="text-gray-400">to</span>
+            <select class="border rounded p-1 text-gray-700 w-full">
+              <option>₹5,000</option>
+              <option>₹10,000</option>
+              <option>₹25,000+</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Brand Filter (Checkboxes) -->
+        <div class="py-3 border-b">
+          <h3 class="text-xs font-bold text-gray-700 uppercase mb-2">Brand</h3>
+          <div class="space-y-2 text-xs text-gray-700">
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" checked class="accent-[#2874f0]" />
+              <span>Sony (240)</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" checked class="accent-[#2874f0]" />
+              <span>boAt (380)</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" class="accent-[#2874f0]" />
+              <span>JBL (190)</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" class="accent-[#2874f0]" />
+              <span>Sennheiser (65)</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Customer Ratings Filter -->
+        <div class="py-3">
+          <h3 class="text-xs font-bold text-gray-700 uppercase mb-2">Customer Ratings</h3>
+          <div class="space-y-1.5 text-xs text-gray-700">
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" class="accent-[#2874f0]" />
+              <span>4★ & above</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" class="accent-[#2874f0]" />
+              <span>3★ & above</span>
+            </label>
+          </div>
+        </div>
+      </aside>
+
+
+      <!-- RIGHT SECTION: Sorting & Product Grid -->
+      <section class="lg:col-span-4 space-y-3">
+        
+        <!-- Sorting Options Bar -->
+        <div class="bg-white p-3 rounded-sm shadow-sm flex items-center gap-4 text-xs border border-gray-200">
+          <span class="font-bold text-gray-800">Sort By</span>
+          <button class="text-[#2874f0] font-bold border-b-2 border-[#2874f0] pb-0.5">Relevance</button>
+          <button class="text-gray-600 hover:text-[#2874f0]">Popularity</button>
+          <button class="text-gray-600 hover:text-[#2874f0]">Price -- Low to High</button>
+          <button class="text-gray-600 hover:text-[#2874f0]">Price -- High to Low</button>
+          <button class="text-gray-600 hover:text-[#2874f0]">Newest First</button>
+        </div>
+
+        <!-- Product Cards Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
+
+          <!-- Product Card 1 -->
+          <div class="bg-white rounded-sm p-4 border border-gray-200 hover:shadow-lg transition relative group flex flex-col justify-between">
+            <button class="absolute top-3 right-3 text-gray-300 hover:text-red-500 transition" title="Add to Wishlist">
+              <i class="fa-solid fa-heart text-lg"></i>
+            </button>
+            <div class="flex flex-col items-center">
+              <div class="h-44 flex items-center justify-center p-2 mb-3">
+                <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&auto=format&fit=crop&q=80" alt="Sony WH-1000XM5" class="max-h-full object-contain group-hover:scale-105 transition-transform duration-300" />
+              </div>
+              <h3 class="text-sm font-semibold text-gray-800 line-clamp-1 w-full hover:text-[#2874f0] cursor-pointer">
+                Sony WH-1000XM5 Wireless Headphones
+              </h3>
+              <p class="text-xs text-gray-500 mt-1 w-full">Silver, Active Noise Cancellation, 30hr Battery</p>
+              
+              <!-- Ratings -->
+              <div class="flex items-center gap-2 mt-2 w-full">
+                <span class="bg-green-700 text-white text-[10px] font-bold px-1.5 py-0.5 rounded flex items-center gap-1">
+                  4.6 <i class="fa-solid fa-star text-[8px]"></i>
+                </span>
+                <span class="text-xs text-gray-400 font-medium">(12,480)</span>
+                <span class="text-[10px] bg-blue-50 text-[#2874f0] font-bold px-1 py-0.5 rounded italic border border-blue-200 ml-auto">F-Assured</span>
+              </div>
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-gray-100">
+              <div class="flex items-baseline gap-2">
+                <span class="text-lg font-bold text-gray-900">₹26,990</span>
+                <span class="text-xs text-gray-400 line-through">₹34,990</span>
+                <span class="text-xs text-green-600 font-bold">22% off</span>
+              </div>
+              <p class="text-[11px] text-gray-500 mt-1">Free delivery by <span class="font-bold text-gray-700">Tomorrow</span></p>
+            </div>
+          </div>
+
+          <!-- Product Card 2 -->
+          <div class="bg-white rounded-sm p-4 border border-gray-200 hover:shadow-lg transition relative group flex flex-col justify-between">
+            <button class="absolute top-3 right-3 text-gray-300 hover:text-red-500 transition" title="Add to Wishlist">
+              <i class="fa-solid fa-heart text-lg"></i>
+            </button>
+            <div class="flex flex-col items-center">
+              <div class="h-44 flex items-center justify-center p-2 mb-3">
+                <img src="https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400&auto=format&fit=crop&q=80" alt="boAt Airdopes 141" class="max-h-full object-contain group-hover:scale-105 transition-transform duration-300" />
+              </div>
+              <h3 class="text-sm font-semibold text-gray-800 line-clamp-1 w-full hover:text-[#2874f0] cursor-pointer">
+                boAt Airdopes 141 Bluetooth TWS Earbuds
+              </h3>
+              <p class="text-xs text-gray-500 mt-1 w-full">Bold Black, 42H Playtime, ENx Tech</p>
+              
+              <!-- Ratings -->
+              <div class="flex items-center gap-2 mt-2 w-full">
+                <span class="bg-green-700 text-white text-[10px] font-bold px-1.5 py-0.5 rounded flex items-center gap-1">
+                  4.1 <i class="fa-solid fa-star text-[8px]"></i>
+                </span>
+                <span class="text-xs text-gray-400 font-medium">(184,920)</span>
+                <span class="text-[10px] bg-blue-50 text-[#2874f0] font-bold px-1 py-0.5 rounded italic border border-blue-200 ml-auto">F-Assured</span>
+              </div>
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-gray-100">
+              <div class="flex items-baseline gap-2">
+                <span class="text-lg font-bold text-gray-900">₹1,299</span>
+                <span class="text-xs text-[#2874f0] text-gray-400 line-through">₹4,490</span>
+                <span class="text-xs text-green-600 font-bold">71% off</span>
+              </div>
+              <p class="text-[11px] text-gray-500 mt-1">Bank Offer 10% Instant Discount</p>
+            </div>
+          </div>
+
+          <!-- Product Card 3 -->
+          <div class="bg-white rounded-sm p-4 border border-gray-200 hover:shadow-lg transition relative group flex flex-col justify-between">
+            <button class="absolute top-3 right-3 text-gray-300 hover:text-red-500 transition" title="Add to Wishlist">
+              <i class="fa-solid fa-heart text-lg"></i>
+            </button>
+            <div class="flex flex-col items-center">
+              <div class="h-44 flex items-center justify-center p-2 mb-3">
+                <img src="https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=400&auto=format&fit=crop&q=80" alt="JBL Tune 760NC" class="max-h-full object-contain group-hover:scale-105 transition-transform duration-300" />
+              </div>
+              <h3 class="text-sm font-semibold text-gray-800 line-clamp-1 w-full hover:text-[#2874f0] cursor-pointer">
+                JBL Tune 760NC Over-Ear Headphones
+              </h3>
+              <p class="text-xs text-gray-500 mt-1 w-full">Blue, Active Noise Cancellation, Pure Bass</p>
+              
+              <!-- Ratings -->
+              <div class="flex items-center gap-2 mt-2 w-full">
+                <span class="bg-green-700 text-white text-[10px] font-bold px-1.5 py-0.5 rounded flex items-center gap-1">
+                  4.3 <i class="fa-solid fa-star text-[8px]"></i>
+                </span>
+                <span class="text-xs text-gray-400 font-medium">(45,110)</span>
+                <span class="text-[10px] bg-blue-50 text-[#2874f0] font-bold px-1 py-0.5 rounded italic border border-blue-200 ml-auto">F-Assured</span>
+              </div>
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-gray-100">
+              <div class="flex items-baseline gap-2">
+                <span class="text-lg font-bold text-gray-900">₹5,499</span>
+                <span class="text-xs text-gray-400 line-through">₹7,999</span>
+                <span class="text-xs text-green-600 font-bold">31% off</span>
+              </div>
+              <p class="text-[11px] text-gray-500 mt-1">Free delivery by <span class="font-bold text-gray-700">Friday</span></p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Pagination Bar -->
+        <div class="bg-white p-3 rounded-sm shadow-sm flex items-center justify-between border border-gray-200 text-xs">
+          <span class="text-gray-500">Page 1 of 60</span>
+          <div class="flex items-center space-x-1">
+            <button class="px-3 py-1 bg-gray-100 rounded text-gray-400 cursor-not-allowed">Previous</button>
+            <button class="px-3 py-1 bg-[#2874f0] text-white rounded font-bold">1</button>
+            <button class="px-3 py-1 hover:bg-gray-100 rounded text-gray-700">2</button>
+            <button class="px-3 py-1 hover:bg-gray-100 rounded text-gray-700">3</button>
+            <button class="px-3 py-1 hover:bg-gray-100 rounded text-gray-700">4</button>
+            <span class="px-1 text-gray-400">...</span>
+            <button class="px-3 py-1 hover:bg-gray-100 rounded text-gray-700">60</button>
+            <button class="px-3 py-1 bg-[#2874f0] text-white rounded font-semibold hover:bg-blue-600">Next</button>
+          </div>
+        </div>
+
+      </section>
+    </div>
+  </main>
+
+
+  <!-- ==========================================
+       3. FOOTER SECTION (Flipkart Dark Footer)
+       ========================================== -->
+  <footer class="bg-[#172337] text-white text-xs mt-10">
+    <!-- Top Footer Columns -->
+    <div class="max-w-7xl mx-auto px-4 py-8 grid grid-cols-2 md:grid-cols-6 gap-6 border-b border-gray-700">
+      
+      <div>
+        <h4 class="text-gray-400 font-semibold uppercase mb-3 text-[11px] tracking-wider">ABOUT</h4>
+        <ul class="space-y-1.5 text-gray-300">
+          <li><a href="#" class="hover:underline">Contact Us</a></li>
+          <li><a href="#" class="hover:underline">About Us</a></li>
+          <li><a href="#" class="hover:underline">Careers</a></li>
+          <li><a href="#" class="hover:underline">Flipkart Stories</a></li>
+          <li><a href="#" class="hover:underline">Press</a></li>
+          <li><a href="#" class="hover:underline">Corporate Information</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-gray-400 font-semibold uppercase mb-3 text-[11px] tracking-wider">HELP</h4>
+        <ul class="space-y-1.5 text-gray-300">
+          <li><a href="#" class="hover:underline">Payments</a></li>
+          <li><a href="#" class="hover:underline">Shipping</a></li>
+          <li><a href="#" class="hover:underline">Cancellation & Returns</a></li>
+          <li><a href="#" class="hover:underline">FAQ</a></li>
+          <li><a href="#" class="hover:underline">Report Infringement</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-gray-400 font-semibold uppercase mb-3 text-[11px] tracking-wider">CONSUMER POLICY</h4>
+        <ul class="space-y-1.5 text-gray-300">
+          <li><a href="#" class="hover:underline">Return Policy</a></li>
+          <li><a href="#" class="hover:underline">Terms Of Use</a></li>
+          <li><a href="#" class="hover:underline">Security</a></li>
+          <li><a href="#" class="hover:underline">Privacy</a></li>
+          <li><a href="#" class="hover:underline">Sitemap</a></li>
+          <li><a href="#" class="hover:underline">EPR Compliance</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-gray-400 font-semibold uppercase mb-3 text-[11px] tracking-wider">SOCIAL</h4>
+        <ul class="space-y-1.5 text-gray-300">
+          <li><a href="#" class="hover:underline"><i class="fa-brands fa-facebook mr-1"></i> Facebook</a></li>
+          <li><a href="#" class="hover:underline"><i class="fa-brands fa-x-twitter mr-1"></i> Twitter / X</a></li>
+          <li><a href="#" class="hover:underline"><i class="fa-brands fa-youtube mr-1"></i> YouTube</a></li>
+        </ul>
+      </div>
+
+      <!-- Mail Us -->
+      <div class="border-l border-gray-700 pl-4 col-span-2 md:col-span-1">
+        <h4 class="text-gray-400 font-semibold uppercase mb-3 text-[11px] tracking-wider">Mail Us:</h4>
+        <p class="text-gray-300 leading-relaxed text-[11px]">
+          Flipkart Internet Private Limited,<br/>
+          Buildings Alyssa, Begonia & Clove Embassy Tech Village,<br/>
+          Outer Ring Road, Devarabeesanahalli Village,<br/>
+          Bengaluru, 560103, Karnataka, India
+        </p>
+      </div>
+
+      <!-- Registered Office Address -->
+      <div class="col-span-2 md:col-span-1">
+        <h4 class="text-gray-400 font-semibold uppercase mb-3 text-[11px] tracking-wider">Registered Office Address:</h4>
+        <p class="text-gray-300 leading-relaxed text-[11px]">
+          Flipkart Internet Private Limited,<br/>
+          Buildings Alyssa, Begonia & Clove Embassy Tech Village,<br/>
+          Outer Ring Road, Devarabeesanahalli Village,<br/>
+          Bengaluru, 560103, Karnataka, India<br/>
+          CIN : U51109KA2012PTC066107<br/>
+          Telephone: <a href="tel:04445614700" class="text-[#2874f0] underline">044-45614700</a>
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Bottom Copyright Strip -->
+    <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between text-gray-400 text-[11px] gap-2">
+      <div class="flex flex-wrap items-center gap-6">
+        <a href="#" class="flex items-center gap-1.5 hover:text-white"><i class="fa-solid fa-store text-[#ffe500]"></i> Become a Seller</a>
+        <a href="#" class="flex items-center gap-1.5 hover:text-white"><i class="fa-solid fa-rectangle-ad text-[#ffe500]"></i> Advertise</a>
+        <a href="#" class="flex items-center gap-1.5 hover:text-white"><i class="fa-solid fa-gift text-[#ffe500]"></i> Gift Cards</a>
+        <a href="#" class="flex items-center gap-1.5 hover:text-white"><i class="fa-solid fa-circle-question text-[#ffe500]"></i> Help Center</a>
+      </div>
+      <div>
+        <span>© 2007-2026 Flipkart.com</span>
+      </div>
+      <div class="flex items-center space-x-2">
+        <span class="bg-gray-800 px-2 py-0.5 rounded text-[10px]">VISA</span>
+        <span class="bg-gray-800 px-2 py-0.5 rounded text-[10px]">MasterCard</span>
+        <span class="bg-gray-800 px-2 py-0.5 rounded text-[10px]">RuPay</span>
+        <span class="bg-gray-800 px-2 py-0.5 rounded text-[10px]">NetBanking</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,26 @@
+AI DEBUG & RESPONSIVE LAYOUT ARCHITECTURE NOTES
+
+1. HERO SECTION LAYOUT SPECIFICATION
+- Layout Type: Multi-layered CSS Grid + Flexbox alignment hybrid.
+- Hero Grid: 12-column responsive layout (`grid grid-cols-1 lg:grid-cols-12 gap-8 items-center`).
+- Main Content Span: `lg:col-span-7` containing live countdown, IPL matchday-style team/headliner badges, headline, description, quick filter chips, and primary action buttons.
+- Secondary Ticket Panel Span: `lg:col-span-5` containing interactive quick-ticket checkout widget with live seat tier availability, stadium arena indicator, and instant booking modal trigger.
+
+2. INITIAL RESPONSIVE ISSUE ENCOUNTERED (Simulated Debug Log)
+- Issue: On mobile viewports (< 768px), the absolute positioned neon aura lights and floating IPL-style matchday stats badge overlapped with the headline text, causing layout shifts and text cutoff.
+- Error/Symptom: Flex container overflowing horizontally on `xs` screens due to unconstrained `white-space: nowrap` inside the headline CTA section.
+
+3. AI EXPLANATION & FIX (Copilot / ChatGPT Debug Output)
+- Explanation: The hero container lacked `overflow-hidden` on its relative parent wrapper, and flex child elements were missing `min-w-0` to allow text wrapping inside grid items. Furthermore, absolute decorative light glows were extending beyond `vw` constraints without `-z-10` index clipping.
+- Code Fix Applied:
+  1. Wrapped hero container in `relative overflow-hidden w-full`.
+  2. Applied `min-w-0` to headline grid wrapper to enforce container boundary calculation.
+  3. Added responsive dynamic padding (`px-4 sm:px-6 lg:px-8 py-12 lg:py-20`).
+  4. Used Tailwind flexbox `flex-col sm:flex-row` for responsive CTA button stacks so mobile buttons expand full width (`w-full sm:w-auto`).
+
+4. FULL RESPONSIVE CSS STACK SUMMARY
+- Navigation: Flex container with sticky glassmorphism backdrop (`backdrop-blur-md bg-zinc-950/80 sticky top-0 z-50`).
+- Category Filter Bar: Flexbox overflow scroll (`flex overflow-x-auto no-scrollbar py-3 gap-3`).
+- Festival Cards Grid: Responsive Grid (`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6`).
+- Interactive Seat Map: CSS Grid layout representing Stadium Sections (North Stand, Fan Pit, VIP Skybox, General Arena).
+- Result: Seamless responsive layout from 320px mobile up to 4K ultra-wide monitors.

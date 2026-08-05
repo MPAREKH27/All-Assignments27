@@ -1,0 +1,6 @@
+{
+  "name": "React AI Developer Workbench",
+  "description": "Interactive React playground & code hub solving exercises for GitHub Copilot, ChatGPT error debugging, Zomato custom hook refactoring, useVideos hook, and AI code review in JSX & JS.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

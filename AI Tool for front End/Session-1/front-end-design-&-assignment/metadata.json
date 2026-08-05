@@ -1,0 +1,6 @@
+{
+  "name": "AI Front-End Design & Assignment Studio",
+  "description": "Interactive workspace featuring Flipkart product listing HTML outline, Figma AI vs Uizard comparison, Zomato AI dev analysis & ethics, and responsive Myntra navbar component.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

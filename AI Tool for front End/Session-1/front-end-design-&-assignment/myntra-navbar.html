@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Myntra Responsive Navigation Bar (Prompt + Full Code JSX)</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- React & ReactDOM CDN for standalone execution -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    :root {
+      --myntra-pink: #ff3f6c;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 font-sans text-gray-800 antialiased">
+
+  <!-- ====================================================================
+       SECTION 1: THE PROMPT GIVEN TO CHATGPT
+       ==================================================================== -->
+  <section class="max-w-6xl mx-auto my-6 p-6 bg-white rounded-lg shadow-sm border border-gray-200">
+    <div class="flex items-center gap-3 mb-4 pb-3 border-b border-gray-200">
+      <span class="bg-[#ff3f6c] text-white px-3 py-1 rounded text-xs font-bold uppercase tracking-wider">ChatGPT Prompt</span>
+      <h1 class="text-xl font-bold text-gray-900">Prompt for Responsive Myntra Navigation Bar</h1>
+    </div>
+    
+    <div class="bg-gray-900 text-pink-300 p-4 rounded-md font-mono text-xs sm:text-sm leading-relaxed overflow-x-auto whitespace-pre-wrap">
+Create a fully responsive Myntra-style Navigation Bar component in React using Tailwind CSS and Lucide React icons.
+
+Requirements:
+1. Branding & Navigation Links:
+   - Include a Myntra-inspired logo icon/text.
+   - Main links: "Home", "Explore" (or Men/Women categories), "Cart", and "Profile".
+   - Active link styling with Myntra's signature pink accent (#ff3f6c).
+
+2. Search Bar:
+   - Centralized search input field with search icon, placeholder "Search for products, brands and more".
+
+3. Layout Constraints:
+   - Desktop Layout:
+     * Sticky top header with fixed height, high z-index, and subtle bottom shadow.
+     * Horizontal inline navbar displaying Logo, Navigation Links with top border hover indicators, Search Bar, and Icon Action buttons (Profile, Wishlist, Cart with dynamic counter badge).
+   - Mobile Layout:
+     * Top header with Logo, Search icon, Cart button with badge, and Hamburger menu button.
+     * Slide-out mobile drawer menu containing full categories, Home, Explore, Profile details, and settings.
+     * Optional fixed bottom navigation bar on mobile screen for quick access to Home, Explore, Cart, and Profile.
+
+4. Deliverable:
+   - Return full clean JSX code with React hooks (useState) for toggling mobile menu and active tabs. Use standard Tailwind utility classes.
+    </div>
+  </section>
+
+  <!-- ====================================================================
+       SECTION 2: LIVE REACT RENDER CONTAINER
+       ==================================================================== -->
+  <section class="max-w-6xl mx-auto mb-10">
+    <div class="mb-3 px-4 flex items-center justify-between">
+      <h2 class="text-lg font-bold text-gray-800">Live Component Preview (Desktop & Mobile Simulation)</h2>
+      <span class="text-xs text-gray-500">Rendered from JSX below</span>
+    </div>
+
+    <div id="react-root"></div>
+  </section>
+
+  <!-- ====================================================================
+       SECTION 3: FULL JSX CODE RETURNED BY CHATGPT
+       ==================================================================== -->
+  <section class="max-w-6xl mx-auto my-6 p-6 bg-white rounded-lg shadow-sm border border-gray-200">
+    <div class="flex items-center justify-between mb-4 pb-3 border-b border-gray-200">
+      <h2 class="text-lg font-bold text-gray-900">Generated JSX Code Snippet</h2>
+      <span class="text-xs bg-gray-100 text-gray-600 px-2.5 py-1 rounded border">React + Tailwind CSS</span>
+    </div>
+
+    <pre class="bg-gray-900 text-gray-100 p-4 rounded-md font-mono text-xs leading-relaxed overflow-x-auto"><code>/**
+ * MyntraNavbar.jsx
+ * Fully responsive Navigation Bar for a Myntra-style E-commerce App
+ */
+
+import React, { useState } from 'react';
+import { 
+  ShoppingBag, 
+  User, 
+  Search, 
+  Menu, 
+  X, 
+  Compass, 
+  Home, 
+  Heart, 
+  ChevronRight 
+} from 'lucide-react';
+
+export default function MyntraNavbar() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('Home');
+  const [cartCount, setCartCount] = useState(3);
+
+  const navLinks = [
+    { name: 'Home', icon: Home, href: '#' },
+    { name: 'Explore', icon: Compass, href: '#' },
+    { name: 'Categories', icon: null, href: '#', isCategory: true },
+    { name: 'Studio', icon: null, href: '#', badge: 'NEW' },
+  ];
+
+  return (
+    &lt;div class="w-full relative font-sans"&gt;
+      {/* =====================================================
+          DESKTOP & MOBILE HEADER (STICKY TOP)
+         ===================================================== */}
+      &lt;header class="sticky top-0 z-50 bg-white shadow-sm border-b border-gray-200"&gt;
+        &lt;div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4"&gt;
+          
+          {/* Logo & Mobile Menu Toggle */}
+          &lt;div class="flex items-center gap-3"&gt;
+            &lt;button 
+              onClick={() =&gt; setIsMobileMenuOpen(!isMobileMenuOpen)}
+              class="lg:hidden p-2 text-gray-600 hover:text-[#ff3f6c] focus:outline-none"
+              aria-label="Toggle menu"
+            &gt;
+              {isMobileMenuOpen ? &lt;X size={24} /&gt; : &lt;Menu size={24} /&gt;}
+            &lt;/button&gt;
+
+            {/* Myntra Logo */}
+            &lt;a href="#" class="flex items-center gap-2 group"&gt;
+              &lt;div class="w-10 h-10 rounded-lg bg-gradient-to-tr from-[#ff3f6c] to-[#ff905a] flex items-center justify-center text-white font-extrabold text-xl shadow-md group-hover:scale-105 transition-transform"&gt;
+                M
+              &lt;/div&gt;
+              &lt;span class="font-extrabold text-xl tracking-tight text-gray-900 hidden sm:inline-block"&gt;
+                MYNTRA
+              &lt;/span&gt;
+            &lt;/a&gt;
+          &lt;/div&gt;
+
+          {/* DESKTOP NAVIGATION LINKS */}
+          &lt;nav class="hidden lg:flex items-center space-x-8 h-full"&gt;
+            {navLinks.map((link) =&gt; (
+              &lt;a
+                key={link.name}
+                href={link.href}
+                onClick={() =&gt; setActiveTab(link.name)}
+                class={`relative h-full flex items-center text-xs font-bold tracking-wider uppercase transition-colors px-1 ${
+                  activeTab === link.name 
+                    ? 'text-[#ff3f6c]' 
+                    : 'text-gray-800 hover:text-[#ff3f6c]'
+                }`}
+              &gt;
+                {link.name}
+                {link.badge && (
+                  &lt;span class="ml-1 -mt-3 text-[9px] bg-[#ff3f6c] text-white px-1 rounded font-bold"&gt;
+                    {link.badge}
+                  &lt;/span&gt;
+                )}
+                {/* Active Underline Indicator */}
+                {activeTab === link.name && (
+                  &lt;span class="absolute bottom-0 left-0 w-full h-[3px] bg-[#ff3f6c] rounded-t-md" /&gt;
+                )}
+              &lt;/a&gt;
+            ))}
+          &lt;/nav&gt;
+
+          {/* DESKTOP SEARCH BAR */}
+          &lt;div class="flex-1 max-w-md hidden sm:block relative"&gt;
+            &lt;div class="relative flex items-center"&gt;
+              &lt;Search class="absolute left-3 text-gray-400 w-4 h-4" /&gt;
+              &lt;input
+                type="text"
+                placeholder="Search for products, brands and more"
+                class="w-full bg-gray-100 text-xs text-gray-800 pl-10 pr-4 py-2.5 rounded-md focus:outline-none focus:bg-white focus:ring-1 focus:ring-[#ff3f6c] border border-transparent focus:border-[#ff3f6c] transition-all"
+              /&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+          {/* ACTION BUTTONS (Profile, Wishlist, Cart) */}
+          &lt;div class="flex items-center space-x-6 text-xs font-semibold"&gt;
+            
+            {/* Profile */}
+            &lt;a 
+              href="#" 
+              onClick={() =&gt; setActiveTab('Profile')}
+              class="flex flex-col items-center text-gray-700 hover:text-[#ff3f6c] transition-colors"
+            &gt;
+              &lt;User class="w-5 h-5 mb-0.5" /&gt;
+              &lt;span class="hidden md:inline"&gt;Profile&lt;/span&gt;
+            &lt;/a&gt;
+
+            {/* Wishlist */}
+            &lt;a 
+              href="#" 
+              class="hidden md:flex flex-col items-center text-gray-700 hover:text-[#ff3f6c] transition-colors"
+            &gt;
+              &lt;Heart class="w-5 h-5 mb-0.5" /&gt;
+              &lt;span&gt;Wishlist&lt;/span&gt;
+            &lt;/a&gt;
+
+            {/* Cart with Badge */}
+            &lt;a 
+              href="#" 
+              onClick={() =&gt; setActiveTab('Cart')}
+              class="flex flex-col items-center text-gray-700 hover:text-[#ff3f6c] transition-colors relative"
+            &gt;
+              &lt;div class="relative"&gt;
+                &lt;ShoppingBag class="w-5 h-5 mb-0.5" /&gt;
+                {cartCount &gt; 0 && (
+                  &lt;span class="absolute -top-1.5 -right-2 bg-[#ff3f6c] text-white text-[10px] font-extrabold w-4 h-4 rounded-full flex items-center justify-center shadow-sm"&gt;
+                    {cartCount}
+                  &lt;/span&gt;
+                )}
+              &lt;/div&gt;
+              &lt;span class="hidden md:inline"&gt;Bag&lt;/span&gt;
+            &lt;/a&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        {/* MOBILE SEARCH BAR BELOW HEADER */}
+        &lt;div class="p-2 bg-gray-50 border-t border-gray-200 sm:hidden"&gt;
+          &lt;div class="relative flex items-center"&gt;
+            &lt;Search class="absolute left-3 text-gray-400 w-4 h-4" /&gt;
+            &lt;input
+              type="text"
+              placeholder="Search for products, brands..."
+              class="w-full bg-white text-xs text-gray-800 pl-9 pr-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:border-[#ff3f6c]"
+            /&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/header&gt;
+
+      {/* =====================================================
+          MOBILE DRAWER MENU (SLIDE OUT)
+         ===================================================== */}
+      {isMobileMenuOpen && (
+        &lt;div class="fixed inset-0 z-50 flex lg:hidden"&gt;
+          {/* Backdrop */}
+          &lt;div 
+            class="fixed inset-0 bg-black/50 backdrop-blur-sm" 
+            onClick={() =&gt; setIsMobileMenuOpen(false)}
+          /&gt;
+
+          {/* Drawer Panel */}
+          &lt;div class="relative w-4/5 max-w-sm bg-white h-full shadow-2xl flex flex-col z-10"&gt;
+            {/* Drawer Header */}
+            &lt;div class="p-4 bg-gradient-to-r from-[#ff3f6c] to-[#ff905a] text-white flex items-center justify-between"&gt;
+              &lt;div class="flex items-center gap-3"&gt;
+                &lt;div class="w-10 h-10 rounded-full bg-white text-[#ff3f6c] font-bold flex items-center justify-center"&gt;
+                  U
+                &lt;/div&gt;
+                &lt;div&gt;
+                  &lt;p class="font-bold text-sm"&gt;Welcome Guest&lt;/p&gt;
+                  &lt;p class="text-xs text-pink-100"&gt;To access orders & wishlist&lt;/p&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+              &lt;button onClick={() =&gt; setIsMobileMenuOpen(false)} class="text-white hover:text-gray-200"&gt;
+                &lt;X size={20} /&gt;
+              &lt;/button&gt;
+            &lt;/div&gt;
+
+            {/* Menu Items */}
+            &lt;div class="flex-1 overflow-y-auto p-4 space-y-1 text-sm font-semibold text-gray-700"&gt;
+              &lt;a href="#" class="flex items-center justify-between py-3 border-b hover:text-[#ff3f6c]"&gt;
+                &lt;span&gt;Men Fashion&lt;/span&gt; &lt;ChevronRight size={16} /&gt;
+              &lt;/a&gt;
+              &lt;a href="#" class="flex items-center justify-between py-3 border-b hover:text-[#ff3f6c]"&gt;
+                &lt;span&gt;Women Fashion&lt;/span&gt; &lt;ChevronRight size={16} /&gt;
+              &lt;/a&gt;
+              &lt;a href="#" class="flex items-center justify-between py-3 border-b hover:text-[#ff3f6c]"&gt;
+                &lt;span&gt;Kids & Baby&lt;/span&gt; &lt;ChevronRight size={16} /&gt;
+              &lt;/a&gt;
+              &lt;a href="#" class="flex items-center justify-between py-3 border-b hover:text-[#ff3f6c]"&gt;
+                &lt;span&gt;Home & Living&lt;/span&gt; &lt;ChevronRight size={16} /&gt;
+              &lt;/a&gt;
+              &lt;a href="#" class="flex items-center justify-between py-3 border-b hover:text-[#ff3f6c]"&gt;
+                &lt;span&gt;Beauty & Personal Care&lt;/span&gt; &lt;ChevronRight size={16} /&gt;
+              &lt;/a&gt;
+              &lt;a href="#" class="flex items-center justify-between py-3 hover:text-[#ff3f6c]"&gt;
+                &lt;span&gt;Myntra Studio&lt;/span&gt; &lt;span class="text-xs text-[#ff3f6c] font-bold uppercase"&gt;New&lt;/span&gt;
+              &lt;/a&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      )}
+
+      {/* =====================================================
+          MOBILE BOTTOM NAVIGATION BAR
+         ===================================================== */}
+      &lt;div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-40 lg:hidden flex justify-around items-center py-2 shadow-lg"&gt;
+        &lt;button 
+          onClick={() =&gt; setActiveTab('Home')}
+          class={`flex flex-col items-center text-[10px] font-bold ${
+            activeTab === 'Home' ? 'text-[#ff3f6c]' : 'text-gray-500'
+          }`}
+        &gt;
+          &lt;Home size={20} class="mb-0.5" /&gt;
+          Home
+        &lt;/button&gt;
+
+        &lt;button 
+          onClick={() =&gt; setActiveTab('Explore')}
+          class={`flex flex-col items-center text-[10px] font-bold ${
+            activeTab === 'Explore' ? 'text-[#ff3f6c]' : 'text-gray-500'
+          }`}
+        &gt;
+          &lt;Compass size={20} class="mb-0.5" /&gt;
+          Explore
+        &lt;/button&gt;
+
+        &lt;button 
+          onClick={() =&gt; setActiveTab('Cart')}
+          class={`flex flex-col items-center text-[10px] font-bold relative ${
+            activeTab === 'Cart' ? 'text-[#ff3f6c]' : 'text-gray-500'
+          }`}
+        &gt;
+          &lt;ShoppingBag size={20} class="mb-0.5" /&gt;
+          {cartCount &gt; 0 && (
+            &lt;span class="absolute -top-1 right-2 bg-[#ff3f6c] text-white text-[9px] w-3.5 h-3.5 rounded-full flex items-center justify-center font-bold"&gt;
+              {cartCount}
+            &lt;/span&gt;
+          )}
+          Cart
+        &lt;/button&gt;
+
+        &lt;button 
+          onClick={() =&gt; setActiveTab('Profile')}
+          class={`flex flex-col items-center text-[10px] font-bold ${
+            activeTab === 'Profile' ? 'text-[#ff3f6c]' : 'text-gray-500'
+          }`}
+        &gt;
+          &lt;User size={20} class="mb-0.5" /&gt;
+          Profile
+        &lt;/button&gt;
+      &lt;/div&gt;
+
+    &lt;/div&gt;
+  );
+}</code></pre>
+  </section>
+
+  <!-- ====================================================================
+       INLINE REACT COMPONENT SCRIPT TO EXECUTE PREVIEW
+       ==================================================================== -->
+  <script type="text/babel">
+    const { useState } = React;
+
+    function MyntraNavbarInteractive() {
+      const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+      const [activeTab, setActiveTab] = useState('Home');
+      const [cartCount, setCartCount] = useState(3);
+
+      return (
+        <div class="w-full relative bg-white rounded-lg overflow-hidden border border-gray-300 shadow-md">
+          {/* Header */}
+          <header class="bg-white border-b border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+              
+              <div class="flex items-center gap-3">
+                <button 
+                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                  class="lg:hidden p-1.5 text-gray-600 hover:text-[#ff3f6c]"
+                >
+                  <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+
+                <div class="flex items-center gap-2">
+                  <div class="w-9 h-9 rounded-md bg-gradient-to-tr from-[#ff3f6c] to-[#ff905a] flex items-center justify-center text-white font-black text-lg shadow-sm">
+                    M
+                  </div>
+                  <span class="font-extrabold text-lg text-gray-900 tracking-tight hidden sm:inline-block">MYNTRA</span>
+                </div>
+              </div>
+
+              {/* Desktop Links */}
+              <nav class="hidden lg:flex items-center space-x-6 text-xs font-bold uppercase tracking-wider text-gray-700">
+                <button onClick={() => setActiveTab('Home')} class={`py-2 px-1 border-b-2 ${activeTab === 'Home' ? 'text-[#ff3f6c] border-[#ff3f6c]' : 'border-transparent hover:text-[#ff3f6c]'}`}>Home</button>
+                <button onClick={() => setActiveTab('Explore')} class={`py-2 px-1 border-b-2 ${activeTab === 'Explore' ? 'text-[#ff3f6c] border-[#ff3f6c]' : 'border-transparent hover:text-[#ff3f6c]'}`}>Explore</button>
+                <a href="#" class="hover:text-[#ff3f6c] py-2 px-1">Categories</a>
+                <a href="#" class="hover:text-[#ff3f6c] py-2 px-1 flex items-center gap-1">Studio <span class="bg-[#ff3f6c] text-white text-[9px] px-1 rounded">NEW</span></a>
+              </nav>
+
+              {/* Search */}
+              <div class="flex-1 max-w-sm hidden sm:block relative">
+                <input 
+                  type="text" 
+                  placeholder="Search for products, brands and more" 
+                  class="w-full bg-gray-100 text-xs text-gray-800 pl-8 pr-3 py-2 rounded focus:outline-none focus:bg-white focus:ring-1 focus:ring-[#ff3f6c]"
+                />
+                <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2.5 text-gray-400 text-xs"></i>
+              </div>
+
+              {/* Right Action Icons */}
+              <div class="flex items-center space-x-5 text-xs font-semibold">
+                <button onClick={() => setActiveTab('Profile')} class={`flex flex-col items-center ${activeTab === 'Profile' ? 'text-[#ff3f6c]' : 'text-gray-700 hover:text-[#ff3f6c]'}`}>
+                  <i class="fa-regular fa-user text-base"></i>
+                  <span class="hidden sm:inline text-[10px]">Profile</span>
+                </button>
+                <button onClick={() => setActiveTab('Cart')} class={`flex flex-col items-center relative ${activeTab === 'Cart' ? 'text-[#ff3f6c]' : 'text-gray-700 hover:text-[#ff3f6c]'}`}>
+                  <div class="relative">
+                    <i class="fa-solid fa-bag-shopping text-base"></i>
+                    {cartCount > 0 && (
+                      <span class="absolute -top-1.5 -right-2 bg-[#ff3f6c] text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                        {cartCount}
+                      </span>
+                    )}
+                  </div>
+                  <span class="hidden sm:inline text-[10px]">Cart</span>
+                </button>
+              </div>
+
+            </div>
+          </header>
+
+          {/* Active View State Indicator */}
+          <div class="p-8 text-center bg-gray-50 border-t border-gray-100">
+            <p class="text-sm text-gray-500 font-medium">Currently Selected View Tab:</p>
+            <p class="text-2xl font-black text-[#ff3f6c] mt-1 uppercase tracking-widest">{activeTab}</p>
+            <p class="text-xs text-gray-400 mt-2">Try toggling mobile hamburger menu or mobile bottom buttons below!</p>
+          </div>
+
+          {/* Mobile Drawer */}
+          {isMobileMenuOpen && (
+            <div class="bg-white border-t p-4 space-y-2 text-sm lg:hidden animate-fade-in">
+              <div class="flex items-center justify-between pb-2 border-b">
+                <span class="font-bold text-[#ff3f6c]">Welcome Guest</span>
+                <button onClick={() => setIsMobileMenuOpen(false)} class="text-gray-500 font-bold">X</button>
+              </div>
+              <div class="py-1"><a href="#" class="text-gray-700 font-medium hover:text-[#ff3f6c]">Men Fashion</a></div>
+              <div class="py-1"><a href="#" class="text-gray-700 font-medium hover:text-[#ff3f6c]">Women Fashion</a></div>
+              <div class="py-1"><a href="#" class="text-gray-700 font-medium hover:text-[#ff3f6c]">Kids & Baby</a></div>
+            </div>
+          )}
+
+          {/* Mobile Bottom Quick Nav */}
+          <div class="bg-white border-t border-gray-200 py-2 px-4 flex justify-around text-xs lg:hidden">
+            <button onClick={() => setActiveTab('Home')} class={`flex flex-col items-center ${activeTab === 'Home' ? 'text-[#ff3f6c]' : 'text-gray-500'}`}>
+              <i class="fa-solid fa-house"></i>
+              <span class="text-[10px] font-bold">Home</span>
+            </button>
+            <button onClick={() => setActiveTab('Explore')} class={`flex flex-col items-center ${activeTab === 'Explore' ? 'text-[#ff3f6c]' : 'text-gray-500'}`}>
+              <i class="fa-solid fa-compass"></i>
+              <span class="text-[10px] font-bold">Explore</span>
+            </button>
+            <button onClick={() => setActiveTab('Cart')} class={`flex flex-col items-center relative ${activeTab === 'Cart' ? 'text-[#ff3f6c]' : 'text-gray-500'}`}>
+              <i class="fa-solid fa-bag-shopping"></i>
+              <span class="text-[10px] font-bold">Cart</span>
+            </button>
+            <button onClick={() => setActiveTab('Profile')} class={`flex flex-col items-center ${activeTab === 'Profile' ? 'text-[#ff3f6c]' : 'text-gray-500'}`}>
+              <i class="fa-regular fa-user"></i>
+              <span class="text-[10px] font-bold">Profile</span>
+            </button>
+          </div>
+
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('react-root')).render(<MyntraNavbarInteractive />);
+  </script>
+
+</body>
+</html>

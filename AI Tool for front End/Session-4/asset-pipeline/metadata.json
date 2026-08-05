@@ -1,0 +1,6 @@
+{
+  "name": "AI Image Studio & Asset Pipeline",
+  "description": "Interactive studio showcasing AI image generation, WebP optimization via sharp, prompt comparisons, and visual asset analytics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
