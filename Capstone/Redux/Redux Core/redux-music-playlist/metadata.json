@@ -1,0 +1,6 @@
+{
+  "name": "Redux Music Playlist",
+  "description": "Interactive Spotify-inspired playlist app demonstrating Redux actions, reducers, store, and React integration.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

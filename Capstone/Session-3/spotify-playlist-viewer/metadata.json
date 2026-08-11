@@ -1,0 +1,6 @@
+{
+  "name": "Spotify Playlist Viewer",
+  "description": "Spotify Playlist Viewer app with project folder architecture, API utilities, env variable reader, and AI env example generator.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

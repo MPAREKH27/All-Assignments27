@@ -1,0 +1,6 @@
+{
+  "name": "UI/UX Design Studio",
+  "description": "Interactive wireframes, high-fidelity prototypes, user journey mapping, and AI design transformers.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

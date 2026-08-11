@@ -1,0 +1,6 @@
+{
+  "name": "React Deployment Test",
+  "description": "Interactive React deployment testing suite featuring Netlify, Firebase Hosting SPA configuration, custom domain DNS setups, CI/CD pipeline visualizers, and AI-assisted deployment guides.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

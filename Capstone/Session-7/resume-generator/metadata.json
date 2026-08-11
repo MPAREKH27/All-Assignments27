@@ -1,0 +1,6 @@
+{
+  "name": "AI Quote & Resume Generator",
+  "description": "AI-powered suite featuring Hugging Face Quote Generator with tone prompt tuning, OpenAI Resume Summarizer with error handling, and Blog Summarizer.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

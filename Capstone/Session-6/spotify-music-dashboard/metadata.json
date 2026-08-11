@@ -1,0 +1,6 @@
+{
+  "name": "Spotify Music Dashboard",
+  "description": "A Spotify-style music dashboard app with Firebase Authentication, React Context user session management, and protected routing.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

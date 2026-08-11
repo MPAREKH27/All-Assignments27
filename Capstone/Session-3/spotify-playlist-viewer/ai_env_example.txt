@@ -1,0 +1,71 @@
+================================================================================
+PROMPT USED (ChatGPT Prompt)
+================================================================================
+"Act as a senior full-stack developer and security expert. Write a comprehensive, production-ready, and secure .env.local file template for a Next.js (13+ App/Pages router) application that integrates with both the OpenAI API and Firebase (Authentication, Firestore, Storage, Analytics). 
+
+Please observe strict security best practices for environment variables in Next.js:
+1. Clearly distinguish between server-only secret keys (which MUST NOT use the NEXT_PUBLIC_ prefix) and client-exposed config values (which require NEXT_PUBLIC_).
+2. Add inline comment documentation explaining what each variable is for and where to locate it in the respective developer consoles.
+3. Include placeholders for both standard OpenAI keys and optional organization/project identifiers.
+4. Provide security guidelines regarding .gitignore, key rotation, and domain restriction."
+
+================================================================================
+GENERATED .env.local CONTENT RECEIVED FROM CHATGPT
+================================================================================
+# ==============================================================================
+# SECURE NEXT.JS ENVIRONMENT VARIABLES (.env.local)
+# Tech Stack: Next.js + OpenAI API + Firebase (Auth, Firestore, Storage)
+# IMPORTANT: DO NOT COMMIT THIS FILE TO GIT REPOSITORY.
+# Add .env.local to your .gitignore file.
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. OPENAI CONFIGURATION (SERVER-SIDE SECRETS)
+# WARNING: Do NOT use NEXT_PUBLIC_ for secret keys! Server-side API routes only.
+# Obtain from: https://platform.openai.com/api-keys
+# ------------------------------------------------------------------------------
+OPENAI_API_KEY="sk-proj-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+# Optional OpenAI Organization & Project IDs (for multi-tenant or enterprise accounts)
+OPENAI_ORG_ID="org-xxxxxxxxxxxxxxxx"
+OPENAI_PROJECT_ID="proj_xxxxxxxxxxxxxxxx"
+
+# Default Model Configuration (Optional Client/Server shared default)
+NEXT_PUBLIC_OPENAI_DEFAULT_MODEL="gpt-4o"
+
+# ------------------------------------------------------------------------------
+# 2. FIREBASE PUBLIC CONFIGURATION (CLIENT-SIDE)
+# Safe for browser exposure via NEXT_PUBLIC_ prefix.
+# Obtain from: Firebase Console > Project Settings > General > Your apps
+# ------------------------------------------------------------------------------
+NEXT_PUBLIC_FIREBASE_API_KEY="AIzaSyA1234567890abcdefghijklmnopqrstuv"
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN="spotify-playlist-viewer.firebaseapp.com"
+NEXT_PUBLIC_FIREBASE_PROJECT_ID="spotify-playlist-viewer"
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET="spotify-playlist-viewer.appspot.com"
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID="123456789012"
+NEXT_PUBLIC_FIREBASE_APP_ID="1:123456789012:web:a1b2c3d4e5f6g7h8i9j0"
+NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID="G-ABC123XYZ"
+
+# ------------------------------------------------------------------------------
+# 3. FIREBASE ADMIN SDK (SERVER-SIDE SECRETS)
+# For admin tasks, custom auth tokens, and server-side Firestore operations.
+# Obtain from: Firebase Console > Project Settings > Service Accounts
+# ------------------------------------------------------------------------------
+FIREBASE_ADMIN_PROJECT_ID="spotify-playlist-viewer"
+FIREBASE_ADMIN_CLIENT_EMAIL="firebase-adminsdk-xxxxx@spotify-playlist-viewer.iam.gserviceaccount.com"
+# Note: Escape newlines in private key when setting in single line environment
+FIREBASE_ADMIN_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC...\n-----END PRIVATE KEY-----\n"
+
+# ------------------------------------------------------------------------------
+# 4. APP BASE URL & ENVIRONMENT
+# ------------------------------------------------------------------------------
+NEXT_PUBLIC_APP_URL="http://localhost:3000"
+NODE_ENV="development"
+
+# ==============================================================================
+# SECURITY CHECKLIST:
+# - Server secrets (OPENAI_API_KEY, FIREBASE_ADMIN_PRIVATE_KEY) are NEVER prefixed
+#   with NEXT_PUBLIC_ to prevent browser leaks.
+# - Restrict Firebase API Key HTTP Referrers in Google Cloud Console.
+# - Store production secrets in Vercel / GCP Secret Manager / Cloud Run variables.
+# ==============================================================================

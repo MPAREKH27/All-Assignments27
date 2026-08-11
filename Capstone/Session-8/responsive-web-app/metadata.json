@@ -1,0 +1,6 @@
+{
+  "name": "Responsive Web App & Audit Lab",
+  "description": "A responsive React web application with built-in device viewport simulation, cross-browser compatibility checker, and Lighthouse performance audit reporter.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

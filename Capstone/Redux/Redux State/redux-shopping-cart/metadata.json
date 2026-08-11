@@ -1,0 +1,6 @@
+{
+  "name": "Redux Shopping Cart",
+  "description": "React Redux application with cartReducer, wishlistReducer, combineReducers, redux-thunk async offers, and Redux DevTools tracking.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

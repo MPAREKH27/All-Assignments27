@@ -1,0 +1,6 @@
+{
+  "name": "React UI Components Showcase",
+  "description": "Interactive React UI components featuring Zomato Navbar, Spotify Playlist Cards, Flipkart Footer, BookMyShow Modal, and IPL Fantasy Dynamic Form.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Firestore App Suite",
+  "description": "A Spotify-style playlist manager, restaurant review app with edit capabilities, and BookMyShow movie watchlist powered by Firestore.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

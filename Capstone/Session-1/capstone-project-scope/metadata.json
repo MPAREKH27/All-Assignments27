@@ -1,0 +1,6 @@
+{
+  "name": "Capstone Project Scope & AI Studio Hub",
+  "description": "Interactive Capstone Project Hub featuring Scope Statements, Smart E-Commerce Dashboard, AI Resume Builder features, Flow Diagram Visualizer, and Theme Comparison Matrix.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
