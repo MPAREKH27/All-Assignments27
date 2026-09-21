@@ -1,0 +1,16 @@
+{
+  "name": "session-9-process-object",
+  "version": "1.0.0",
+  "description": "",
+  "main": "findMovie.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "yargs": "^18.2.0"
+  }
+}

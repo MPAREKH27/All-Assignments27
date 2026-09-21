@@ -1,0 +1,23 @@
+> node createPlaylist.js
+Playlist successfully written to playlist.txt!
+
+> node parsePath.js
+File Path Analysis:
+-------------------
+Directory Name : /user/music
+Base Name      : playlist.txt
+File Extension : .txt
+
+> node readBookList.js
+To Kill a Mockingbird
+1984
+The Great Gatsby
+Pride and Prejudice
+The Catcher in the Rye
+
+> node notificationSystem.js
+=== Notification System Demo ===
+You have a new message!
+You are followed by alex_dev
+You have a new message!
+You are followed by sarah_code

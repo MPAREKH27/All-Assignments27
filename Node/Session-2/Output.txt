@@ -1,0 +1,19 @@
+# Test 1: GET Home Page
+$ curl http://localhost:3000/
+Home Page
+
+# Test 2: GET About Page
+$ curl http://localhost:3000/about
+About Us Page
+
+# Test 3: GET Products Page
+$ curl http://localhost:3000/products
+iPhone 14, Nike Shoes, Boat Headphones
+
+# Test 4: GET Unknown Page (404)
+$ curl http://localhost:3000/contact
+Page Not Found
+
+# Test 5: POST Request
+$ curl -X POST http://localhost:3000/
+POST request received
