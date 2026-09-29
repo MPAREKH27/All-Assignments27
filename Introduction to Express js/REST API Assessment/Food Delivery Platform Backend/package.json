@@ -1,0 +1,21 @@
+{
+  "name": "food-delivery-platform-backend",
+  "version": "1.0.0",
+  "description": "Food Delivery Platform REST API — JWT auth, CRUD, file uploads, centralised error handling",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["express", "jwt", "rest-api", "food-delivery"],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.4.0",
+    "uuid": "^14.0.2"
+  }
+}
