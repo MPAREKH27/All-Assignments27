@@ -1,0 +1,13 @@
+{
+  "name": "structuring-rest-api-session-6",
+  "version": "1.0.0",
+  "description": "Express application with modular routes for users and playlists",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.22.3"
+  }
+}
