@@ -1,0 +1,26 @@
+{
+  "name": "node-integration-session-1",
+  "version": "1.0.0",
+  "description": "Session-1 Assignments: Fetch API, Axios, CORS Demonstration, Status Validation, and Resilient Error Handling",
+  "main": "task2_trending_shows.js",
+  "scripts": {
+    "task2": "node task2_trending_shows.js",
+    "task3:server": "node task3_server.js",
+    "task3:frontend": "node task3_frontend_server.js",
+    "task5": "node task5_trending_shows.js",
+    "start": "node task3_frontend_server.js"
+  },
+  "keywords": [
+    "fetch",
+    "axios",
+    "cors",
+    "node",
+    "javascript",
+    "assignment"
+  ],
+  "author": "Mohit Parekh",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.9"
+  }
+}

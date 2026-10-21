@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 2: Fetch Trending Shows (axios)</title>
+    <!-- Axios CDN as suggested in prompt hint -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0b0f19 0%, #1e1b4b 50%, #0f172a 100%);
+            --card-bg: rgba(30, 41, 59, 0.75);
+            --card-border: rgba(255, 255, 255, 0.12);
+            --accent-primary: #6366f1;
+            --accent-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            min-height: 100vh;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 680px;
+            background: var(--card-bg);
+            backdrop-filter: blur(18px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 36px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(99, 102, 241, 0.2);
+            border: 1px solid rgba(99, 102, 241, 0.4);
+            color: #818cf8;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+        }
+
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(to right, #ffffff, #cbd5e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 24px;
+        }
+
+        .action-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        button.btn-fetch {
+            flex: 1;
+            padding: 12px 20px;
+            background: var(--accent-gradient);
+            border: none;
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 8px 16px -4px rgba(99, 102, 241, 0.4);
+        }
+
+        button.btn-fetch:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px -4px rgba(99, 102, 241, 0.55);
+        }
+
+        .shows-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+
+        .show-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 12px 18px;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .show-item:hover {
+            transform: translateX(4px);
+            background: rgba(15, 23, 42, 0.85);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        .show-info {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .show-rank {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(99, 102, 241, 0.25);
+            color: #a5b4fc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .show-name {
+            font-weight: 600;
+            font-size: 1rem;
+            color: #f1f5f9;
+        }
+
+        .show-meta {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .console-preview {
+            background: #090d16;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 14px 18px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: #a5f3fc;
+            line-height: 1.5;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .console-header {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 0.875rem;
+        }
+
+        .nav-links a {
+            color: #818cf8;
+            text-decoration: none;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <span class="badge">Task 2 &bull; Axios GET</span>
+        <h1>Trending TV Shows</h1>
+        <p class="subtitle">
+            Uses <code>axios</code> via CDN to fetch <code>https://api.tvmaze.com/shows</code> and logs the first 5 show names to the browser console.
+        </p>
+
+        <div class="action-bar">
+            <button id="fetchBtn" class="btn-fetch">Fetch Trending Shows (axios)</button>
+        </div>
+
+        <ul class="shows-list" id="showsList">
+            <li class="show-item" style="color: var(--text-muted); justify-content: center;">
+                Click "Fetch Trending Shows" or open DevTools Console (F12) to observe output.
+            </li>
+        </ul>
+
+        <div class="console-preview">
+            <div class="console-header">
+                <span>Browser Console Mirror</span>
+                <span>F12 &gt; Console</span>
+            </div>
+            <div id="consoleMirror">Ready to fetch...</div>
+        </div>
+
+        <div class="nav-links">
+            <a href="task1_playlist_form.html">&larr; Task 1 (Playlist Form)</a>
+            <a href="task5_trending_shows.html">Task 5 (Error Handling) &rarr;</a>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'https://api.tvmaze.com/shows';
+        const fetchBtn = document.getElementById('fetchBtn');
+        const showsList = document.getElementById('showsList');
+        const consoleMirror = document.getElementById('consoleMirror');
+
+        function fetchTrendingShows() {
+            fetchBtn.disabled = true;
+            fetchBtn.textContent = 'Fetching with axios...';
+            consoleMirror.textContent = 'axios.get("' + API_URL + '")...';
+
+            // TASK 2 REQUIREMENT: Use axios in a JavaScript file to fetch shows and display the first 5 names in console
+            axios.get(API_URL)
+                .then(function (response) {
+                    const shows = response.data;
+                    const top5 = shows.slice(0, 5);
+
+                    console.log('==============================================');
+                    console.log('🎬 [Task 2] First 5 Trending Shows from TVMaze:');
+                    console.log('==============================================');
+
+                    let mirrorText = '>>> Console Output:\n🎬 TOP 5 TRENDING SHOWS:\n';
+                    showsList.innerHTML = '';
+
+                    top5.forEach(function (show, index) {
+                        const rank = index + 1;
+                        // Print name to console as requested
+                        console.log(`${rank}. ${show.name}`);
+                        mirrorText += `${rank}. ${show.name}\n`;
+
+                        // Render on screen
+                        const li = document.createElement('li');
+                        li.className = 'show-item';
+                        li.innerHTML = `
+                            <div class="show-info">
+                                <div class="show-rank">${rank}</div>
+                                <div>
+                                    <div class="show-name">${show.name}</div>
+                                    <div class="show-meta">${show.genres ? show.genres.join(', ') : 'Drama'} &bull; Rating: ${show.rating?.average || 'N/A'}</div>
+                                </div>
+                            </div>
+                            <span style="font-size: 0.8rem; color: #a5b4fc; background: rgba(99,102,241,0.2); padding: 4px 8px; border-radius: 6px;">
+                                ${show.premiered ? show.premiered.slice(0, 4) : 'TV Show'}
+                            </span>
+                        `;
+                        showsList.appendChild(li);
+                    });
+
+                    console.log('==============================================');
+                    consoleMirror.textContent = mirrorText;
+                })
+                .catch(function (error) {
+                    console.error('[Task 2] Axios Error:', error);
+                    consoleMirror.textContent = 'Error: ' + error.message;
+                })
+                .finally(function () {
+                    fetchBtn.disabled = false;
+                    fetchBtn.textContent = 'Fetch Trending Shows (axios)';
+                });
+        }
+
+        fetchBtn.addEventListener('click', fetchTrendingShows);
+
+        // Automatically fetch on page load for immediate demonstration
+        window.addEventListener('DOMContentLoaded', fetchTrendingShows);
+    </script>
+</body>
+</html>

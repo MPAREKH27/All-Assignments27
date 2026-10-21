@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Node Integration Session-1 Assignment Hub: Fetch API, Axios HTTP Requests, CORS Observation, response.ok Validation, and Resilient Error Handling.">
+    <title>Node Integration &bull; Session-1 Assignments Hub</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        :root {
+            --bg-body: #0b0f19;
+            --bg-gradient: radial-gradient(circle at top left, #1e1b4b 0%, #0f172a 40%, #050811 100%);
+            --card-bg: rgba(30, 41, 59, 0.6);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --accent-purple: #a855f7;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-rose: #f43f5e;
+            --accent-amber: #f59e0b;
+            --text-main: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            --code-font: 'Consolas', 'Courier New', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: var(--bg-body);
+            background-image: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Top Header */
+        header.hero {
+            padding: 48px 24px 28px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(10px);
+            background: rgba(15, 23, 42, 0.4);
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            background: rgba(168, 85, 247, 0.15);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            color: #d8b4fe;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 16px;
+        }
+
+        h1.hero-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.hero-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        /* Main Container */
+        main.main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 36px 24px 64px;
+        }
+
+        /* Tab Navigation Bar */
+        nav.nav-tabs {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 12px;
+            margin-bottom: 32px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            scrollbar-width: thin;
+        }
+
+        .tab-btn {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-secondary);
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn:hover {
+            background: rgba(51, 65, 85, 0.8);
+            color: #fff;
+            transform: translateY(-1px);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.25) 0%, rgba(99, 102, 241, 0.25) 100%);
+            border-color: rgba(168, 85, 247, 0.6);
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(168, 85, 247, 0.2);
+        }
+
+        /* Tab Content Sections */
+        .tab-pane {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Grid layout for Task Cards */
+        .tasks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 24px;
+            margin-bottom: 36px;
+        }
+
+        .task-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.25s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .task-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(to right, transparent, var(--card-accent, var(--accent-purple)), transparent);
+            opacity: 0.6;
+        }
+
+        .task-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.18);
+            box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.5), 0 0 25px rgba(168, 85, 247, 0.1);
+        }
+
+        .task-tag {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--card-accent, #a855f7);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .task-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #ffffff;
+        }
+
+        .task-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-launch {
+            flex: 1;
+            padding: 10px 14px;
+            background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-decoration: none;
+            text-align: center;
+            transition: opacity 0.2s, transform 0.15s;
+        }
+
+        .btn-launch:hover {
+            opacity: 0.92;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--text-main);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        /* Interactive Sandbox Area */
+        .sandbox-box {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+            margin-bottom: 28px;
+        }
+
+        .sandbox-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .sandbox-header h2 {
+            font-size: 1.35rem;
+            font-weight: 700;
+        }
+
+        .code-snippet {
+            background: #060911;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 16px;
+            font-family: var(--code-font);
+            font-size: 0.85rem;
+            color: #93c5fd;
+            overflow-x: auto;
+            margin-top: 16px;
+            white-space: pre;
+        }
+
+        /* Embedded Live Console */
+        .terminal-container {
+            background: #050811;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.6);
+            margin-top: 24px;
+        }
+
+        .terminal-bar {
+            background: #0f172a;
+            padding: 8px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .terminal-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+        .dot-red { background: #ef4444; }
+        .dot-yellow { background: #f59e0b; }
+        .dot-green { background: #10b981; }
+
+        .terminal-title {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-family: var(--code-font);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .terminal-body {
+            padding: 16px;
+            font-family: var(--code-font);
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: #67e8f9;
+            min-height: 140px;
+            max-height: 260px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        /* Forms in Sandbox */
+        .sb-form-group {
+            margin-bottom: 16px;
+        }
+
+        .sb-form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #cbd5e1;
+        }
+
+        .sb-input, .sb-textarea {
+            width: 100%;
+            padding: 10px 14px;
+            background: rgba(2, 6, 23, 0.7);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 8px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border 0.2s;
+        }
+
+        .sb-input:focus, .sb-textarea:focus {
+            border-color: #a855f7;
+        }
+
+        .sb-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .sb-btn-purple {
+            background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+        }
+
+        .sb-btn-green {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .sb-btn-blue {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        }
+
+        .sb-btn-rose {
+            background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+        }
+
+        /* Status alert inside sandbox */
+        .alert-pill {
+            margin-top: 16px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 0.875rem;
+            display: none;
+        }
+        .alert-pill.success {
+            display: block;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            color: #34d399;
+        }
+        .alert-pill.error {
+            display: block;
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #f87171;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="hero">
+        <div class="hero-badge">&bull; Node Integration &bull; Session 1</div>
+        <h1 class="hero-title">API Integration &amp; Asynchronous JavaScript</h1>
+        <p class="hero-subtitle">Interactive workbench demonstrating <code>fetch()</code>, <code>axios</code>, CORS security constraints, <code>response.ok</code> verification, and resilient network error handling.</p>
+    </header>
+
+    <main class="main-content">
+        <!-- Navigation Tabs -->
+        <nav class="nav-tabs" id="navTabs">
+            <button class="tab-btn active" data-tab="overview">📋 Overview</button>
+            <button class="tab-btn" data-tab="task1">1️⃣ Task 1: Fetch Form</button>
+            <button class="tab-btn" data-tab="task2">2️⃣ Task 2: Axios Shows</button>
+            <button class="tab-btn" data-tab="task3">3️⃣ Task 3: CORS Demo</button>
+            <button class="tab-btn" data-tab="task4">4️⃣ Task 4: response.ok Form</button>
+            <button class="tab-btn" data-tab="task5">5️⃣ Task 5: Error Handling</button>
+        </nav>
+
+        <!-- TAB 1: OVERVIEW -->
+        <section id="pane-overview" class="tab-pane active">
+            <div class="tasks-grid">
+                <!-- Task 1 Card -->
+                <div class="task-card" style="--card-accent: #a855f7;">
+                    <div>
+                        <span class="task-tag">Question 1 &bull; Fetch API</span>
+                        <h2 class="task-title">Playlist Submission Form</h2>
+                        <p class="task-desc">Creates a form with Playlist Name and Description, sending JSON payload via <code>fetch()</code> to <code>jsonplaceholder.typicode.com/posts</code>.</p>
+                    </div>
+                    <div class="card-actions">
+                        <a href="task1_playlist_form.html" class="btn-launch" target="_blank">Open Standalone Form &rarr;</a>
+                        <button class="btn-secondary" onclick="switchTab('task1')">Interactive Sandbox</button>
+                    </div>
+                </div>
+
+                <!-- Task 2 Card -->
+                <div class="task-card" style="--card-accent: #6366f1;">
+                    <div>
+                        <span class="task-tag">Question 2 &bull; Axios GET</span>
+                        <h2 class="task-title">TVMaze Trending Shows</h2>
+                        <p class="task-desc">Uses <code>axios</code> (CDN &amp; Node.js) to fetch from <code>api.tvmaze.com/shows</code> and displays the first 5 show names in the console.</p>
+                    </div>
+                    <div class="card-actions">
+                        <a href="task2_trending_shows.html" class="btn-launch" target="_blank">Open Standalone App &rarr;</a>
+                        <button class="btn-secondary" onclick="switchTab('task2')">Interactive Sandbox</button>
+                    </div>
+                </div>
+
+                <!-- Task 3 Card -->
+                <div class="task-card" style="--card-accent: #f43f5e;">
+                    <div>
+                        <span class="task-tag">Question 3 &bull; CORS Security</span>
+                        <h2 class="task-title">Cross-Port CORS Observation</h2>
+                        <p class="task-desc">Demonstrates browser Same-Origin Policy (SOP) by POSTing login data from port 3000/3001 to port 5000 and recording the exact CORS error message.</p>
+                    </div>
+                    <div class="card-actions">
+                        <a href="task3_cors_login.html" class="btn-launch" target="_blank">Open CORS Demo &rarr;</a>
+                        <button class="btn-secondary" onclick="switchTab('task3')">Details &amp; Error Log</button>
+                    </div>
+                </div>
+
+                <!-- Task 4 Card -->
+                <div class="task-card" style="--card-accent: #10b981;">
+                    <div>
+                        <span class="task-tag">Question 4 &bull; Status Handling</span>
+                        <h2 class="task-title">Playlist Form (response.ok)</h2>
+                        <p class="task-desc">Enhances playlist form to check <code>response.ok</code>. Displays user-friendly success or error alert banners with HTTP status codes.</p>
+                    </div>
+                    <div class="card-actions">
+                        <a href="task4_playlist_form.html" class="btn-launch" target="_blank">Open Form with Feedback &rarr;</a>
+                        <button class="btn-secondary" onclick="switchTab('task4')">Interactive Sandbox</button>
+                    </div>
+                </div>
+
+                <!-- Task 5 Card -->
+                <div class="task-card" style="--card-accent: #ec4899;">
+                    <div>
+                        <span class="task-tag">Question 5 &bull; Resilience</span>
+                        <h2 class="task-title">Resilient Axios Fetch</h2>
+                        <p class="task-desc">Refactors TVMaze fetch with robust error handling for wrong URLs (404/502), network drops, and offline states with helpful messages.</p>
+                    </div>
+                    <div class="card-actions">
+                        <a href="task5_trending_shows.html" class="btn-launch" target="_blank">Open Resilient App &rarr;</a>
+                        <button class="btn-secondary" onclick="switchTab('task5')">Interactive Sandbox</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: TASK 1 SANDBOX -->
+        <section id="pane-task1" class="tab-pane">
+            <div class="sandbox-box">
+                <div class="sandbox-header">
+                    <h2>Task 1: Add Playlist Form using <code>fetch()</code></h2>
+                    <a href="task1_playlist_form.html" target="_blank" class="btn-launch" style="flex:none;">Open Dedicated File</a>
+                </div>
+                <form id="sbForm1">
+                    <div class="sb-form-group">
+                        <label for="sb1_name">Playlist Name</label>
+                        <input type="text" id="sb1_name" class="sb-input" value="Late Night Coding Sessions" required>
+                    </div>
+                    <div class="sb-form-group">
+                        <label for="sb1_desc">Description</label>
+                        <textarea id="sb1_desc" class="sb-textarea" rows="3" required>Lofi, synthwave, and instrumental ambient beats.</textarea>
+                    </div>
+                    <button type="submit" class="sb-btn sb-btn-purple">Send with fetch() (POST JSON)</button>
+                </form>
+                <div class="terminal-container">
+                    <div class="terminal-bar">
+                        <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+                        <span class="terminal-title">Task 1 Console Terminal</span>
+                    </div>
+                    <div class="terminal-body" id="term1">Ready. Click submit above to send fetch() POST to jsonplaceholder.typicode.com/posts...</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: TASK 2 SANDBOX -->
+        <section id="pane-task2" class="tab-pane">
+            <div class="sandbox-box">
+                <div class="sandbox-header">
+                    <h2>Task 2: TVMaze Shows using <code>axios</code></h2>
+                    <a href="task2_trending_shows.html" target="_blank" class="btn-launch" style="flex:none;">Open Dedicated File</a>
+                </div>
+                <p style="color:var(--text-secondary); margin-bottom:16px;">
+                    Fetches <code>https://api.tvmaze.com/shows</code> and logs the first 5 show names in the console:
+                </p>
+                <button id="sbBtn2" class="sb-btn sb-btn-blue">Execute axios.get()</button>
+                <div class="terminal-container">
+                    <div class="terminal-bar">
+                        <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+                        <span class="terminal-title">Task 2 Console Terminal</span>
+                    </div>
+                    <div class="terminal-body" id="term2">Click "Execute axios.get()" to fetch shows...</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: TASK 3 CORS DEMO -->
+        <section id="pane-task3" class="tab-pane">
+            <div class="sandbox-box">
+                <div class="sandbox-header">
+                    <h2>Task 3: Cross-Origin Resource Sharing (CORS) Demonstration</h2>
+                    <a href="task3_cors_login.html" target="_blank" class="btn-launch" style="flex:none;">Open Dedicated File</a>
+                </div>
+                
+                <div style="background: rgba(244,63,94,0.12); border: 1px solid rgba(244,63,94,0.3); border-radius:10px; padding:18px; margin-bottom:20px;">
+                    <h3 style="color:#fb7185; margin-bottom:8px;">⚠️ Recorded Browser Console Error Message</h3>
+                    <div class="code-snippet" style="color:#fecdd3; margin-top:0;">Access to fetch at 'http://localhost:5000/api/login' from origin 'http://localhost:3000' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+
+TypeError: Failed to fetch</div>
+                </div>
+
+                <h3 style="margin-bottom:8px;">Technical Root Cause Explanation:</h3>
+                <ul style="color:var(--text-secondary); margin-left:20px; line-height:1.7;">
+                    <li><strong>Origin Components:</strong> A web origin is defined by the 3-tuple: <code>&lt;protocol&gt;://&lt;host&gt;:&lt;port&gt;</code>.</li>
+                    <li><strong>Origin Mismatch:</strong> <code>http://localhost:3000</code> and <code>http://localhost:5000</code> have different port numbers (3000 vs 5000), meaning they belong to different origins.</li>
+                    <li><strong>Same-Origin Policy (SOP):</strong> Modern browsers enforce SOP to prevent malicious scripts from reading sensitive data across domains/ports.</li>
+                    <li><strong>Cross-Origin Request:</strong> Because the request includes <code>Content-Type: application/json</code>, the browser initiates a preflight or expects the response to include <code>Access-Control-Allow-Origin: *</code> (or the requesting origin). Since the backend on port 5000 does not return this header, the browser blocks access.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- TAB 5: TASK 4 STATUS VALIDATION -->
+        <section id="pane-task4" class="tab-pane">
+            <div class="sandbox-box">
+                <div class="sandbox-header">
+                    <h2>Task 4: Playlist Form with <code>response.ok</code> Checking</h2>
+                    <a href="task4_playlist_form.html" target="_blank" class="btn-launch" style="flex:none;">Open Dedicated File</a>
+                </div>
+
+                <div style="margin-bottom:16px;">
+                    <label style="font-size:0.85rem; color:var(--text-secondary); margin-right:16px;">Select Test Scenario:</label>
+                    <label style="margin-right:12px; cursor:pointer;">
+                        <input type="radio" name="sb4_mode" value="201" checked> Normal (Expect 201 Created &rarr; <code>response.ok: true</code>)
+                    </label>
+                    <label style="cursor:pointer;">
+                        <input type="radio" name="sb4_mode" value="404"> Bad URL (Expect 404 &rarr; <code>response.ok: false</code>)
+                    </label>
+                </div>
+
+                <form id="sbForm4">
+                    <div class="sb-form-group">
+                        <label for="sb4_name">Playlist Name</label>
+                        <input type="text" id="sb4_name" class="sb-input" value="Acoustic Morning Vibes" required>
+                    </div>
+                    <div class="sb-form-group">
+                        <label for="sb4_desc">Description</label>
+                        <textarea id="sb4_desc" class="sb-textarea" rows="2" required>Relaxed acoustic guitar and soft rhythms.</textarea>
+                    </div>
+                    <button type="submit" class="sb-btn sb-btn-green">Submit Playlist &amp; Check response.ok</button>
+                </form>
+
+                <div id="sb4_alert" class="alert-pill"></div>
+
+                <div class="terminal-container">
+                    <div class="terminal-bar">
+                        <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+                        <span class="terminal-title">Task 4 Console Terminal</span>
+                    </div>
+                    <div class="terminal-body" id="term4">Awaiting submission...</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 6: TASK 5 RESILIENT ERROR HANDLING -->
+        <section id="pane-task5" class="tab-pane">
+            <div class="sandbox-box">
+                <div class="sandbox-header">
+                    <h2>Task 5: Resilient Axios Shows Fetch</h2>
+                    <a href="task5_trending_shows.html" target="_blank" class="btn-launch" style="flex:none;">Open Dedicated File</a>
+                </div>
+
+                <div style="display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap;">
+                    <button id="sb5_btnValid" class="sb-btn sb-btn-green">&check; Valid API (Success)</button>
+                    <button id="sb5_btn404" class="sb-btn" style="background:#f59e0b;">&cross; Wrong URL (404 / 502)</button>
+                    <button id="sb5_btnNet" class="sb-btn sb-btn-rose">&cross; Network / Offline Simulation</button>
+                </div>
+
+                <div id="sb5_alert" class="alert-pill"></div>
+
+                <div class="terminal-container">
+                    <div class="terminal-bar">
+                        <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+                        <span class="terminal-title">Task 5 Console Terminal</span>
+                    </div>
+                    <div class="terminal-body" id="term5">Select a test scenario above to view resilient error handling...</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        Node Integration Assignment &bull; Session 1 &bull; Tops Technologies
+    </footer>
+
+    <script>
+        // Tab switching logic
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.tab === tabId);
+            });
+            document.querySelectorAll('.tab-pane').forEach(pane => {
+                pane.classList.toggle('active', pane.id === 'pane-' + tabId);
+            });
+        }
+
+        document.getElementById('navTabs').addEventListener('click', (e) => {
+            const btn = e.target.closest('.tab-btn');
+            if (btn) switchTab(btn.dataset.tab);
+        });
+
+        // ---------------- TASK 1 SANDBOX LOGIC ----------------
+        document.getElementById('sbForm1').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const term = document.getElementById('term1');
+            const name = document.getElementById('sb1_name').value;
+            const desc = document.getElementById('sb1_desc').value;
+            const payload = { title: name, playlistName: name, body: desc, description: desc };
+
+            term.textContent = `[Task 1] Sending fetch() POST to https://jsonplaceholder.typicode.com/posts\nPayload: ${JSON.stringify(payload, null, 2)}`;
+
+            fetch('https://jsonplaceholder.typicode.com/posts', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            })
+            .then(res => res.json())
+            .then(data => {
+                console.log('[Task 1 Sandbox] Response:', data);
+                term.textContent = `[Task 1 Success - Status 201 Created]\nConsole Log Mirror:\n` + JSON.stringify(data, null, 2);
+            })
+            .catch(err => {
+                term.textContent = `[Task 1 Error]: ` + err.message;
+            });
+        });
+
+        // ---------------- TASK 2 SANDBOX LOGIC ----------------
+        document.getElementById('sbBtn2').addEventListener('click', function () {
+            const term = document.getElementById('term2');
+            term.textContent = `[Task 2] axios.get("https://api.tvmaze.com/shows")...`;
+
+            axios.get('https://api.tvmaze.com/shows')
+                .then(res => {
+                    const top5 = res.data.slice(0, 5);
+                    console.log('[Task 2 Sandbox] First 5 shows:', top5.map(s => s.name));
+                    
+                    let out = `🎬 TOP 5 TRENDING SHOWS (First 5 names logged to console):\n\n`;
+                    top5.forEach((s, idx) => {
+                        out += `${idx + 1}. ${s.name} (Rating: ${s.rating?.average || 'N/A'})\n`;
+                    });
+                    term.textContent = out;
+                })
+                .catch(err => {
+                    term.textContent = `Error: ` + err.message;
+                });
+        });
+
+        // ---------------- TASK 4 SANDBOX LOGIC ----------------
+        document.getElementById('sbForm4').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const term = document.getElementById('term4');
+            const alertBox = document.getElementById('sb4_alert');
+            const mode = document.querySelector('input[name="sb4_mode"]:checked').value;
+            const endpoint = (mode === '201') 
+                ? 'https://jsonplaceholder.typicode.com/posts' 
+                : 'https://jsonplaceholder.typicode.com/invalid_404_endpoint';
+
+            const payload = {
+                title: document.getElementById('sb4_name').value,
+                body: document.getElementById('sb4_desc').value
+            };
+
+            term.textContent = `Sending fetch() to ${endpoint}...`;
+
+            try {
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                term.textContent = `HTTP Status: ${response.status}\nresponse.ok: ${response.ok}`;
+
+                if (response.ok) {
+                    const data = await response.json();
+                    alertBox.className = 'alert-pill success';
+                    alertBox.textContent = `🎉 Success! Playlist "${payload.title}" created with ID #${data.id} (Status: ${response.status})`;
+                } else {
+                    alertBox.className = 'alert-pill error';
+                    alertBox.textContent = `⚠️ Error! Server returned HTTP Status ${response.status} (${response.statusText || 'Not Found'})`;
+                }
+            } catch (err) {
+                alertBox.className = 'alert-pill error';
+                alertBox.textContent = `🚫 Network Error: ${err.message}`;
+            }
+        });
+
+        // ---------------- TASK 5 SANDBOX LOGIC ----------------
+        async function runTask5(url, label) {
+            const term = document.getElementById('term5');
+            const alertBox = document.getElementById('sb5_alert');
+            alertBox.style.display = 'none';
+            term.textContent = `[Testing ${label}] Calling ${url}...`;
+
+            try {
+                const res = await axios.get(url, { timeout: 3500 });
+                const top5 = res.data.slice(0, 5);
+                alertBox.className = 'alert-pill success';
+                alertBox.textContent = `✅ Successfully fetched ${res.data.length} shows!`;
+                term.textContent = `Top 5 Shows:\n` + top5.map((s, i) => `${i + 1}. ${s.name}`).join('\n');
+            } catch (error) {
+                alertBox.className = 'alert-pill error';
+                let msg = '';
+                if (error.response) {
+                    msg = `⚠️ Server Error (${error.response.status}): The requested endpoint was not found or the server is unavailable.`;
+                } else if (error.request) {
+                    msg = `⚠️ Network Error: Unable to connect to server. Please check your internet connection.`;
+                } else {
+                    msg = `⚠️ Error: ${error.message}`;
+                }
+                alertBox.textContent = msg;
+                term.textContent = `Error Object:\n${error.message}\nCode: ${error.code || error.response?.status || 'UNKNOWN'}`;
+            }
+        }
+
+        document.getElementById('sb5_btnValid').addEventListener('click', () => runTask5('https://api.tvmaze.com/shows', 'Valid Endpoint'));
+        document.getElementById('sb5_btn404').addEventListener('click', () => runTask5('https://api.tvmaze.com/non_existent_404', 'Broken URL'));
+        document.getElementById('sb5_btnNet').addEventListener('click', () => runTask5('https://invalid-domain-network-failure-test.xyz', 'Network Disconnect'));
+    </script>
+</body>
+</html>

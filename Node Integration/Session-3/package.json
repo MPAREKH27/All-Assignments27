@@ -1,0 +1,14 @@
+{
+  "name": "mern-integration-session3",
+  "version": "1.0.0",
+  "description": "Session 3 - Complete MERN Integration for Playlists, Restaurants, Movies, Error Handling, and Async/Await",
+  "scripts": {
+    "start:backend": "cd backend && npm start",
+    "start:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run dev",
+    "test:api": "node test-api.js"
+  },
+  "keywords": ["mern", "mongodb", "mongoose", "express", "react", "async-await"],
+  "author": "",
+  "license": "ISC"
+}

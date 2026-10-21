@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 3: Cross-Origin (CORS) Login Demonstration</title>
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #090d16 0%, #1e112a 50%, #170d1a 100%);
+            --card-bg: rgba(30, 27, 46, 0.75);
+            --card-border: rgba(255, 255, 255, 0.12);
+            --accent-primary: #f43f5e;
+            --accent-gradient: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --input-bg: rgba(15, 12, 25, 0.7);
+            --input-border: rgba(244, 63, 94, 0.3);
+            --font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            min-height: 100vh;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 620px;
+            background: var(--card-bg);
+            backdrop-filter: blur(18px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 36px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 40px rgba(244, 63, 94, 0.12);
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(244, 63, 94, 0.2);
+            border: 1px solid rgba(244, 63, 94, 0.4);
+            color: #fb7185;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+        }
+
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(to right, #ffffff, #fecdd3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 24px;
+        }
+
+        .origin-info-box {
+            background: rgba(15, 12, 25, 0.8);
+            border: 1px dashed rgba(244, 63, 94, 0.4);
+            border-radius: 10px;
+            padding: 14px 18px;
+            margin-bottom: 24px;
+            font-size: 0.875rem;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .origin-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .origin-row span.label {
+            color: var(--text-muted);
+        }
+
+        .origin-row code {
+            font-family: monospace;
+            background: rgba(244, 63, 94, 0.15);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #fda4af;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #e2e8f0;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #f43f5e;
+            box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.25);
+        }
+
+        button.btn-login {
+            width: 100%;
+            padding: 14px;
+            background: var(--accent-gradient);
+            border: none;
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.15s ease, box-shadow 0.2s ease;
+            box-shadow: 0 10px 20px -5px rgba(244, 63, 94, 0.4);
+            margin-top: 10px;
+        }
+
+        button.btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px -5px rgba(244, 63, 94, 0.6);
+        }
+
+        .cors-error-card {
+            margin-top: 24px;
+            background: rgba(225, 29, 72, 0.12);
+            border: 1px solid rgba(225, 29, 72, 0.4);
+            border-radius: 12px;
+            padding: 18px;
+        }
+
+        .cors-error-card h3 {
+            font-size: 1rem;
+            color: #fb7185;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cors-error-text {
+            background: #0d0811;
+            border-radius: 8px;
+            padding: 12px 14px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.82rem;
+            color: #fca5a5;
+            line-height: 1.5;
+            word-break: break-all;
+            white-space: pre-wrap;
+            border: 1px solid rgba(244, 63, 94, 0.2);
+        }
+
+        .explanation {
+            margin-top: 12px;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            line-height: 1.5;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 0.875rem;
+        }
+
+        .nav-links a {
+            color: #fb7185;
+            text-decoration: none;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <span class="badge">Task 3 &bull; CORS Observation</span>
+        <h1>Cross-Origin Login Form</h1>
+        <p class="subtitle">
+            POST credentials to a different port (e.g. <code>localhost:5000</code>). Open browser DevTools (<code>F12 &gt; Console</code>) to observe the CORS policy error.
+        </p>
+
+        <!-- Current Origin vs Target Origin -->
+        <div class="origin-info-box">
+            <div class="origin-row">
+                <span class="label">Current Frontend Origin:</span>
+                <code id="currentOriginDisplay">Detecting...</code>
+            </div>
+            <div class="origin-row">
+                <span class="label">Target Backend API Origin:</span>
+                <code>http://localhost:5000</code>
+            </div>
+        </div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input 
+                    type="text" 
+                    id="username" 
+                    name="username" 
+                    value="student_dev" 
+                    placeholder="Enter your username" 
+                    required 
+                />
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    name="password" 
+                    value="SecretPassword123" 
+                    placeholder="Enter your password" 
+                    required 
+                />
+            </div>
+
+            <div class="form-group">
+                <label for="apiUrl">Target API Endpoint (Cross-Port)</label>
+                <input 
+                    type="text" 
+                    id="apiUrl" 
+                    name="apiUrl" 
+                    value="http://localhost:5000/api/login" 
+                    required 
+                />
+            </div>
+
+            <button type="submit" id="loginBtn" class="btn-login">Attempt Login (POST to Port 5000)</button>
+        </form>
+
+        <!-- Recorded CORS Error Display -->
+        <div class="cors-error-card">
+            <h3>⚠️ Recorded Browser Console Error</h3>
+            <div class="cors-error-text" id="liveConsoleOutput">Click "Attempt Login" to trigger the cross-origin request.
+Then observe the red CORS error logged in DevTools Console.</div>
+            
+            <div class="explanation">
+                <strong>Why does this error occur?</strong><br>
+                Under the browser's <em>Same-Origin Policy</em> (SOP), an origin consists of <code>protocol + domain + port</code>. Because the frontend (port 3000) and API (port 5000) have different port numbers, the browser treats them as distinct origins. When sending a JSON POST request, the browser blocks it unless the server responds with an explicit <code>Access-Control-Allow-Origin</code> header.
+            </div>
+        </div>
+
+        <div class="nav-links">
+            <a href="task2_trending_shows.html">&larr; Task 2 (Axios Shows)</a>
+            <a href="task4_playlist_form.html">Task 4 (response.ok Form) &rarr;</a>
+        </div>
+    </div>
+
+    <script>
+        const loginForm = document.getElementById('loginForm');
+        const loginBtn = document.getElementById('loginBtn');
+        const liveConsoleOutput = document.getElementById('liveConsoleOutput');
+        const currentOriginDisplay = document.getElementById('currentOriginDisplay');
+
+        // Display current origin
+        currentOriginDisplay.textContent = window.location.origin || 'file:// (Local File)';
+
+        loginForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const targetUrl = document.getElementById('apiUrl').value;
+
+            loginBtn.disabled = true;
+            loginBtn.textContent = 'Sending Cross-Port Request...';
+
+            console.log(`[Task 3] Initiating POST request to different origin: ${targetUrl}`);
+            console.log(`[Task 3] From current origin: ${window.location.origin}`);
+
+            liveConsoleOutput.textContent = `[Request Sent]\nTarget: ${targetUrl}\nWaiting for browser response / preflight check...\nCheck browser Developer Tools (F12 > Console).`;
+
+            // Attempting to POST JSON to a different port without server CORS configuration
+            fetch(targetUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: username,
+                    password: password
+                })
+            })
+            .then(function (response) {
+                console.log('[Task 3] Unexpectedly received response:', response);
+                return response.json();
+            })
+            .then(function (data) {
+                liveConsoleOutput.textContent = `Response: ` + JSON.stringify(data, null, 2);
+            })
+            .catch(function (error) {
+                // The browser refuses to expose details of the CORS block to JavaScript for security reasons.
+                // In JavaScript catch(), it appears as "TypeError: Failed to fetch".
+                // In the browser DevTools Console, the browser security engine logs the full CORS policy message:
+                console.error('[Task 3 Live Error Caught]:', error);
+
+                const currentOrigin = window.location.origin || 'http://localhost:3000';
+                const recordedErrorMessage = 
+`🔴 BROWSER CONSOLE ERROR MESSAGE:
+Access to fetch at '${targetUrl}' from origin '${currentOrigin}' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+
+🔴 JAVASCRIPT CATCH ERROR:
+${error.name}: ${error.message} (Failed to fetch)`;
+
+                liveConsoleOutput.textContent = recordedErrorMessage;
+            })
+            .finally(function () {
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Attempt Login (POST to Port 5000)';
+            });
+        });
+    </script>
+</body>
+</html>

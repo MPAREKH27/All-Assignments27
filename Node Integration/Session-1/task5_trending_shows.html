@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 5: Trending Shows with User-Friendly Error Handling</title>
+    <!-- Axios CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #090e1a 0%, #1e1b4b 50%, #0f172a 100%);
+            --card-bg: rgba(30, 41, 59, 0.75);
+            --card-border: rgba(255, 255, 255, 0.12);
+            --accent-primary: #ec4899;
+            --accent-gradient: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            min-height: 100vh;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 680px;
+            background: var(--card-bg);
+            backdrop-filter: blur(18px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 36px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 40px rgba(236, 72, 153, 0.12);
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(236, 72, 153, 0.2);
+            border: 1px solid rgba(236, 72, 153, 0.4);
+            color: #f472b6;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+        }
+
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(to right, #ffffff, #cbd5e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 24px;
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+
+        .btn-test {
+            padding: 12px 14px;
+            border: none;
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .btn-test.success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-test.warning {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+
+        .btn-test.danger {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-test:hover {
+            transform: translateY(-2px);
+            opacity: 0.95;
+        }
+
+        .status-alert {
+            padding: 16px 20px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .status-alert.error-alert {
+            display: flex;
+            gap: 14px;
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.5);
+            color: #fca5a5;
+        }
+
+        .status-alert.success-alert {
+            display: flex;
+            gap: 14px;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.5);
+            color: #6ee7b7;
+        }
+
+        .alert-icon {
+            font-size: 1.6rem;
+            line-height: 1;
+        }
+
+        .alert-heading {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 4px;
+            color: #ffffff;
+        }
+
+        .alert-message {
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .alert-technical {
+            margin-top: 8px;
+            font-family: 'Consolas', monospace;
+            font-size: 0.78rem;
+            background: rgba(0, 0, 0, 0.35);
+            padding: 6px 10px;
+            border-radius: 6px;
+            color: #cbd5e1;
+            word-break: break-all;
+        }
+
+        .shows-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+
+        .show-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 12px 18px;
+        }
+
+        .show-rank {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(236, 72, 153, 0.25);
+            color: #f472b6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-right: 12px;
+        }
+
+        .console-preview {
+            background: #090d16;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 14px 18px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: #fbcfe8;
+            max-height: 160px;
+            overflow-y: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 0.875rem;
+        }
+
+        .nav-links a {
+            color: #f472b6;
+            text-decoration: none;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <span class="badge">Task 5 &bull; Axios Error Handling</span>
+        <h1>Trending Shows (Resilient Fetch)</h1>
+        <p class="subtitle">
+            Handles network drops, broken endpoints, and server errors gracefully with friendly messages. Test each scenario below:
+        </p>
+
+        <!-- Test Triggers -->
+        <div class="button-grid">
+            <button id="btnValid" class="btn-test success">
+                &check; Valid API (Success)
+            </button>
+            <button id="btnBadUrl" class="btn-test warning">
+                &cross; Bad URL (404 / 502)
+            </button>
+            <button id="btnNetwork" class="btn-test danger">
+                &cross; Network / Offline Error
+            </button>
+        </div>
+
+        <!-- Dynamic User-Friendly Alert Banner -->
+        <div id="statusAlert" class="status-alert">
+            <div class="alert-icon" id="alertIcon"></div>
+            <div>
+                <div class="alert-heading" id="alertHeading"></div>
+                <div class="alert-message" id="alertMessage"></div>
+                <div class="alert-technical" id="alertTechnical"></div>
+            </div>
+        </div>
+
+        <ul class="shows-list" id="showsList"></ul>
+
+        <div class="console-preview" id="consoleMirror">
+            Select a test above to execute Axios request...
+        </div>
+
+        <div class="nav-links">
+            <a href="task2_trending_shows.html">&larr; Task 2 (Basic Axios)</a>
+            <a href="index.html">Dashboard Home &rarr;</a>
+        </div>
+    </div>
+
+    <script>
+        const statusAlert = document.getElementById('statusAlert');
+        const alertIcon = document.getElementById('alertIcon');
+        const alertHeading = document.getElementById('alertHeading');
+        const alertMessage = document.getElementById('alertMessage');
+        const alertTechnical = document.getElementById('alertTechnical');
+        const showsList = document.getElementById('showsList');
+        const consoleMirror = document.getElementById('consoleMirror');
+
+        async function fetchShowsWithErrorHandling(targetUrl, scenarioName) {
+            // Reset UI
+            statusAlert.style.display = 'none';
+            showsList.innerHTML = '';
+            consoleMirror.textContent = `[Testing ${scenarioName}] Calling: ${targetUrl}...`;
+
+            console.log(`[Task 5] Requesting: ${targetUrl}`);
+
+            try {
+                const response = await axios.get(targetUrl, { timeout: 4000 });
+                const shows = response.data;
+                const top5 = shows.slice(0, 5);
+
+                // Display success alert
+                statusAlert.className = 'status-alert success-alert';
+                statusAlert.style.display = 'flex';
+                alertIcon.textContent = '🎬';
+                alertHeading.textContent = 'Shows Retrieved Successfully';
+                alertMessage.textContent = `Retrieved trending shows from TVMaze API without errors.`;
+                alertTechnical.textContent = `HTTP 200 OK • Loaded ${shows.length} shows total.`;
+
+                // Render top 5
+                top5.forEach((show, index) => {
+                    const li = document.createElement('li');
+                    li.className = 'show-item';
+                    li.innerHTML = `
+                        <div style="display:flex; align-items:center;">
+                            <div class="show-rank">${index + 1}</div>
+                            <div>
+                                <div style="font-weight:600; color:#fff;">${show.name}</div>
+                                <div style="font-size:0.8rem; color:var(--text-muted);">${show.genres?.join(', ') || 'Series'} • Rating: ${show.rating?.average || 'N/A'}</div>
+                            </div>
+                        </div>
+                    `;
+                    showsList.appendChild(li);
+                });
+
+                console.log('[Task 5] Top 5 Shows:', top5.map(s => s.name));
+                consoleMirror.textContent = `✅ Successfully fetched 5 shows:\n` + top5.map((s, i) => `${i + 1}. ${s.name}`).join('\n');
+
+            } catch (error) {
+                // TASK 5 REQUIREMENT: Handle & display user-friendly error message
+                statusAlert.className = 'status-alert error-alert';
+                statusAlert.style.display = 'flex';
+                alertIcon.textContent = '⚠️';
+
+                let friendlyMessage = '';
+                let techDetails = '';
+
+                if (error.response) {
+                    // Server responded with non-2xx status (e.g. 404, 500, 502)
+                    alertHeading.textContent = `Server Error (${error.response.status})`;
+                    if (error.response.status === 404) {
+                        friendlyMessage = 'The requested TV show directory could not be found. Please verify the URL endpoint.';
+                    } else if (error.response.status >= 500) {
+                        friendlyMessage = 'The TV show server is temporarily unavailable or experiencing high load. Please try again in a few moments.';
+                    } else {
+                        friendlyMessage = `Server rejected the request with status code ${error.response.status}.`;
+                    }
+                    techDetails = `Status: ${error.response.status} ${error.response.statusText} | URL: ${targetUrl}`;
+
+                } else if (error.request) {
+                    // Request made but no response received (offline, bad domain, timeout)
+                    alertHeading.textContent = 'Connection / Network Problem';
+                    if (!navigator.onLine) {
+                        friendlyMessage = 'You appear to be offline. Please reconnect your Wi-Fi / internet connection and try again.';
+                    } else {
+                        friendlyMessage = 'Unable to reach the server. Please check your internet connection, firewall, or ensure the server is online.';
+                    }
+                    techDetails = `Error Code: ${error.code || 'ERR_NETWORK'} | No response received.`;
+
+                } else {
+                    // General setup exception
+                    alertHeading.textContent = 'Request Initialization Failed';
+                    friendlyMessage = 'Something went wrong while setting up the request.';
+                    techDetails = error.message;
+                }
+
+                alertMessage.textContent = friendlyMessage;
+                alertTechnical.textContent = techDetails;
+
+                console.error('[Task 5 Friendly Error]', friendlyMessage, error);
+                consoleMirror.textContent = `❌ [User-Friendly Error Triggered]\nMessage: ${friendlyMessage}\nTechnical: ${techDetails}`;
+            }
+        }
+
+        // Attach listeners to test buttons
+        document.getElementById('btnValid').addEventListener('click', () => {
+            fetchShowsWithErrorHandling('https://api.tvmaze.com/shows', 'Valid Endpoint');
+        });
+
+        document.getElementById('btnBadUrl').addEventListener('click', () => {
+            fetchShowsWithErrorHandling('https://api.tvmaze.com/invalid_shows_endpoint_404', 'Broken URL');
+        });
+
+        document.getElementById('btnNetwork').addEventListener('click', () => {
+            fetchShowsWithErrorHandling('https://non-existent-domain-offline-test-12345.org/shows', 'Network Failure');
+        });
+
+        // Run valid test initially
+        window.addEventListener('DOMContentLoaded', () => {
+            fetchShowsWithErrorHandling('https://api.tvmaze.com/shows', 'Initial Load');
+        });
+    </script>
+</body>
+</html>

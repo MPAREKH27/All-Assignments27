@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 4: Playlist Form with Status Feedback (response.ok)</title>
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #090d16 0%, #111827 50%, #1f2937 100%);
+            --card-bg: rgba(31, 41, 55, 0.75);
+            --card-border: rgba(255, 255, 255, 0.12);
+            --accent-primary: #10b981;
+            --accent-gradient: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            --accent-hover: linear-gradient(135deg, #047857 0%, #059669 100%);
+            --text-main: #f9fafb;
+            --text-muted: #9ca3af;
+            --input-bg: rgba(17, 24, 39, 0.7);
+            --input-border: rgba(156, 163, 175, 0.25);
+            --input-focus: #10b981;
+            --success-bg: rgba(16, 185, 129, 0.15);
+            --success-border: rgba(16, 185, 129, 0.5);
+            --success-text: #34d399;
+            --error-bg: rgba(239, 68, 68, 0.15);
+            --error-border: rgba(239, 68, 68, 0.5);
+            --error-text: #f87171;
+            --font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            min-height: 100vh;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 580px;
+            background: var(--card-bg);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 36px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 40px rgba(16, 185, 129, 0.15);
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            color: #34d399;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+        }
+
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(to right, #ffffff, #d1d5db);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 24px;
+        }
+
+        .endpoint-selector {
+            background: rgba(17, 24, 39, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-bottom: 24px;
+        }
+
+        .endpoint-selector-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .radio-options {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            color: #d1d5db;
+        }
+
+        .radio-label input {
+            accent-color: #10b981;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label.field-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #e5e7eb;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus {
+            border-color: var(--input-focus);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
+            background: rgba(17, 24, 39, 0.9);
+        }
+
+        button.btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: var(--accent-gradient);
+            border: none;
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.15s ease, box-shadow 0.2s ease, opacity 0.2s;
+            box-shadow: 0 10px 20px -5px rgba(16, 185, 129, 0.4);
+            margin-top: 10px;
+        }
+
+        button.btn-submit:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px -5px rgba(16, 185, 129, 0.55);
+        }
+
+        button.btn-submit:active {
+            transform: translateY(0);
+        }
+
+        button.btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Banner feedback box for response.ok */
+        .feedback-banner {
+            margin-top: 24px;
+            padding: 16px;
+            border-radius: 12px;
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .feedback-banner.success {
+            display: flex;
+            gap: 12px;
+            background: var(--success-bg);
+            border: 1px solid var(--success-border);
+            color: var(--success-text);
+        }
+
+        .feedback-banner.error {
+            display: flex;
+            gap: 12px;
+            background: var(--error-bg);
+            border: 1px solid var(--error-border);
+            color: var(--error-text);
+        }
+
+        .banner-icon {
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+
+        .banner-title {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+
+        .banner-msg {
+            font-size: 0.875rem;
+            line-height: 1.4;
+            color: #e5e7eb;
+        }
+
+        .banner-details {
+            margin-top: 6px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 6px 10px;
+            border-radius: 6px;
+            word-break: break-all;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 0.875rem;
+        }
+
+        .nav-links a {
+            color: #34d399;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #6ee7b7;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <span class="badge">Task 4 &bull; response.ok Validation</span>
+        <h1>Playlist Form with Status</h1>
+        <p class="subtitle">
+            Submits the form and evaluates <code>response.ok</code>. Displays a custom styled success or error message to the user based on the HTTP status code.
+        </p>
+
+        <!-- Interactive endpoint tester to easily verify both success and error cases -->
+        <div class="endpoint-selector">
+            <span class="endpoint-selector-label">Target Endpoint (Test Scenarios):</span>
+            <div class="radio-options">
+                <label class="radio-label">
+                    <input type="radio" name="apiEndpoint" value="normal" checked />
+                    <span>Valid Endpoint (Expect 201 Created &rarr; <code>response.ok: true</code>)</span>
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="apiEndpoint" value="invalid" />
+                    <span>Broken Endpoint (Expect 404 Not Found &rarr; <code>response.ok: false</code>)</span>
+                </label>
+            </div>
+        </div>
+
+        <form id="playlistStatusForm">
+            <div class="form-group">
+                <label for="playlistTitle" class="field-label">Playlist Name</label>
+                <input 
+                    type="text" 
+                    id="playlistTitle" 
+                    name="playlistTitle" 
+                    placeholder="e.g., Deep Focus & Coding" 
+                    required 
+                />
+            </div>
+
+            <div class="form-group">
+                <label for="playlistDesc" class="field-label">Description</label>
+                <textarea 
+                    id="playlistDesc" 
+                    name="playlistDesc" 
+                    placeholder="e.g., Instrumental electronic tracks engineered for sustained concentration." 
+                    required
+                ></textarea>
+            </div>
+
+            <button type="submit" id="submitBtn" class="btn-submit">Submit Playlist</button>
+        </form>
+
+        <!-- Status / Feedback Banner (Success or Error) -->
+        <div id="feedbackBanner" class="feedback-banner">
+            <div class="banner-icon" id="bannerIcon"></div>
+            <div>
+                <div class="banner-title" id="bannerTitle"></div>
+                <div class="banner-msg" id="bannerMsg"></div>
+                <div class="banner-details" id="bannerDetails"></div>
+            </div>
+        </div>
+
+        <div class="nav-links">
+            <a href="task1_playlist_form.html">&larr; Task 1 (Basic Form)</a>
+            <a href="index.html">Dashboard Home &rarr;</a>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('playlistStatusForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const banner = document.getElementById('feedbackBanner');
+        const bannerIcon = document.getElementById('bannerIcon');
+        const bannerTitle = document.getElementById('bannerTitle');
+        const bannerMsg = document.getElementById('bannerMsg');
+        const bannerDetails = document.getElementById('bannerDetails');
+
+        form.addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            // Clear previous banner
+            banner.className = 'feedback-banner';
+            banner.style.display = 'none';
+
+            // Gather inputs
+            const playlistTitle = document.getElementById('playlistTitle').value.trim();
+            const playlistDesc = document.getElementById('playlistDesc').value.trim();
+
+            const playlistPayload = {
+                title: playlistTitle,
+                playlistName: playlistTitle,
+                body: playlistDesc,
+                description: playlistDesc,
+                userId: 42,
+                timestamp: new Date().toISOString()
+            };
+
+            // Determine endpoint URL based on selected test radio
+            const selectedRadio = document.querySelector('input[name="apiEndpoint"]:checked').value;
+            const endpoint = (selectedRadio === 'normal') 
+                ? 'https://jsonplaceholder.typicode.com/posts' 
+                : 'https://jsonplaceholder.typicode.com/non_existent_endpoint_404';
+
+            // UI state: loading
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting & Checking Status...';
+
+            console.log(`[Task 4] Sending POST request to: ${endpoint}`);
+
+            try {
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(playlistPayload)
+                });
+
+                console.log(`[Task 4] Response received: status = ${response.status}, ok = ${response.ok}`);
+
+                // KEY REQUIREMENT (Task 4): Use response.ok to check if request was successful
+                if (response.ok) {
+                    // response.ok is TRUE (HTTP 200-299)
+                    const data = await response.json();
+                    
+                    banner.className = 'feedback-banner success';
+                    banner.style.display = 'flex';
+                    bannerIcon.textContent = '🎉';
+                    bannerTitle.textContent = 'Playlist Created Successfully!';
+                    bannerMsg.textContent = `The playlist "${playlistTitle}" was saved to the server.`;
+                    bannerDetails.textContent = `HTTP Status: ${response.status} (${response.statusText || 'Created'}) | Assigned ID: ${data.id || 'N/A'}`;
+
+                    console.log('[Task 4 SUCCESS] Response Data:', data);
+                    form.reset();
+                } else {
+                    // response.ok is FALSE (HTTP 4xx, 5xx)
+                    banner.className = 'feedback-banner error';
+                    banner.style.display = 'flex';
+                    bannerIcon.textContent = '⚠️';
+                    bannerTitle.textContent = `Submission Failed (HTTP ${response.status})`;
+                    bannerMsg.textContent = `The server responded with an error status: ${response.statusText || 'Not Found / Bad Request'}.`;
+                    bannerDetails.textContent = `Endpoint: ${endpoint} | response.ok was false`;
+
+                    console.warn(`[Task 4 ERROR] Server returned unsuccessful status: ${response.status}`);
+                }
+            } catch (networkError) {
+                // Catch actual network / DNS / offline failures
+                banner.className = 'feedback-banner error';
+                banner.style.display = 'flex';
+                bannerIcon.textContent = '🚫';
+                bannerTitle.textContent = 'Network Error';
+                bannerMsg.textContent = 'Could not establish connection to the remote API. Please check your internet connection.';
+                bannerDetails.textContent = `Details: ${networkError.message}`;
+
+                console.error('[Task 4 NETWORK ERROR]', networkError);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Playlist';
+            }
+        });
+    </script>
+</body>
+</html>

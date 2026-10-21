@@ -1,0 +1,208 @@
+{
+	"info": {
+		"_postman_id": "a8f3b4c1-2d9e-4b6e-8f1a-9c7d8e2f3a4b",
+		"name": "FoodieApp APIs",
+		"description": "API collection for FoodieApp to manage posts, users, and food updates. Contains GET, POST, PUT, and DELETE requests with descriptions and test assertions for peer review.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET - Fetch All Posts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response is an array of posts\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.be.an('array');",
+							"    pm.expect(jsonData.length).to.be.above(0);",
+							"});",
+							"",
+							"pm.test(\"Post contains required fields: id, title, body\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData[0]).to.have.property('id');",
+							"    pm.expect(jsonData[0]).to.have.property('title');",
+							"    pm.expect(jsonData[0]).to.have.property('body');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://jsonplaceholder.typicode.com/posts",
+					"protocol": "https",
+					"host": [
+						"jsonplaceholder",
+						"typicode",
+						"com"
+					],
+					"path": [
+						"posts"
+					]
+				},
+				"description": "Retrieves an array of all posts from the server. Used in FoodieApp to display feed, community food reviews, and announcements. Expected response: HTTP 200 OK with a JSON array of post objects."
+			},
+			"response": []
+		},
+		{
+			"name": "POST - Create New User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201 Created\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Response contains submitted name and email\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.name).to.eql(\"Mohit Parekh\");",
+							"    pm.expect(jsonData.email).to.eql(\"mohit.parekh@example.com\");",
+							"});",
+							"",
+							"pm.test(\"Response has newly assigned user ID\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property('id');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Mohit Parekh\",\n    \"email\": \"mohit.parekh@example.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://jsonplaceholder.typicode.com/users",
+					"protocol": "https",
+					"host": [
+						"jsonplaceholder",
+						"typicode",
+						"com"
+					],
+					"path": [
+						"users"
+					]
+				},
+				"description": "Creates a new foodie user profile by sending name and email fields in JSON format. Used in FoodieApp for onboarding new users. Expected response: HTTP 201 Created returning the sent payload along with a unique user ID."
+			},
+			"response": []
+		},
+		{
+			"name": "PUT - Update User Details",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200 OK\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response contains updated user details\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.name).to.eql(\"Mohit Parekh (Updated)\");",
+							"    pm.expect(jsonData.email).to.eql(\"mohit.updated@example.com\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Mohit Parekh (Updated)\",\n    \"email\": \"mohit.updated@example.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://jsonplaceholder.typicode.com/users/1",
+					"protocol": "https",
+					"host": [
+						"jsonplaceholder",
+						"typicode",
+						"com"
+					],
+					"path": [
+						"users",
+						"1"
+					]
+				},
+				"description": "Updates existing user information (name and email) for user ID 1. Used in FoodieApp when a user edits their account profile. Expected response: HTTP 200 OK returning the modified profile data."
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE - Delete Post by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200 OK\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://jsonplaceholder.typicode.com/posts/1",
+					"protocol": "https",
+					"host": [
+						"jsonplaceholder",
+						"typicode",
+						"com"
+					],
+					"path": [
+						"posts",
+						"1"
+					]
+				},
+				"description": "Deletes a post or review by ID from the database. Used in FoodieApp when a user removes their review or food item. Expected response: HTTP 200 OK confirming deletion."
+			},
+			"response": []
+		}
+	]
+}

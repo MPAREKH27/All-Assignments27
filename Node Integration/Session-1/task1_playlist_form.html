@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 1: Add New Playlist (fetch)</title>
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --card-border: rgba(255, 255, 255, 0.12);
+            --accent-primary: #8b5cf6;
+            --accent-gradient: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+            --accent-hover: linear-gradient(135deg, #9333ea 0%, #db2777 100%);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --input-bg: rgba(15, 23, 42, 0.6);
+            --input-border: rgba(148, 163, 184, 0.25);
+            --input-focus: #a855f7;
+            --font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            min-height: 100vh;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 540px;
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 36px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 40px rgba(139, 92, 246, 0.15);
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(139, 92, 246, 0.2);
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            color: #c084fc;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+        }
+
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(to right, #ffffff, #cbd5e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #e2e8f0;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus {
+            border-color: var(--input-focus);
+            box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.25);
+            background: rgba(15, 23, 42, 0.85);
+        }
+
+        button.btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: var(--accent-gradient);
+            border: none;
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.15s ease, box-shadow 0.2s ease, opacity 0.2s;
+            box-shadow: 0 10px 20px -5px rgba(168, 85, 247, 0.4);
+            margin-top: 10px;
+        }
+
+        button.btn-submit:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px -5px rgba(168, 85, 247, 0.55);
+        }
+
+        button.btn-submit:active {
+            transform: translateY(0);
+        }
+
+        button.btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #a855f7;
+            text-decoration: none;
+            font-size: 0.875rem;
+            margin-top: 24px;
+            transition: color 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: #c084fc;
+            text-decoration: underline;
+        }
+
+        .log-box {
+            margin-top: 24px;
+            padding: 16px;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: #38bdf8;
+            max-height: 180px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .log-title {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 6px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <span class="badge">Task 1 &bull; Fetch API</span>
+        <h1>Add New Playlist</h1>
+        <p class="subtitle">Submit this form to send JSON data to <code>https://jsonplaceholder.typicode.com/posts</code> using the native <code>fetch()</code> API.</p>
+
+        <form id="playlistForm">
+            <div class="form-group">
+                <label for="playlistName">Playlist Name</label>
+                <input 
+                    type="text" 
+                    id="playlistName" 
+                    name="playlistName" 
+                    placeholder="e.g., Synthwave Chillwave Vibes" 
+                    required 
+                />
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea 
+                    id="description" 
+                    name="description" 
+                    placeholder="e.g., Relaxing retro synth melodies and beats for late-night programming sessions." 
+                    required
+                ></textarea>
+            </div>
+
+            <button type="submit" id="submitBtn" class="btn-submit">Add Playlist (fetch)</button>
+        </form>
+
+        <div class="log-box" id="logBox" style="display: none;">
+            <div class="log-title">Console Output (Real-time Mirror):</div>
+            <div id="logContent">Awaiting submission...</div>
+        </div>
+
+        <a href="index.html" class="nav-link">&larr; Back to Session-1 Dashboard</a>
+    </div>
+
+    <script>
+        const form = document.getElementById('playlistForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const logBox = document.getElementById('logBox');
+        const logContent = document.getElementById('logContent');
+
+        form.addEventListener('submit', function (event) {
+            // Prevent standard form submission reload
+            event.preventDefault();
+
+            // 1. Gather form values
+            const playlistName = document.getElementById('playlistName').value.trim();
+            const description = document.getElementById('description').value.trim();
+
+            const playlistData = {
+                title: playlistName,        // JSONPlaceholder expects 'title'
+                playlistName: playlistName, // Also pass descriptive field
+                body: description,         // JSONPlaceholder expects 'body'
+                description: description,  // Also pass descriptive field
+                userId: 1
+            };
+
+            // UI feedback: disable submit while fetching
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending with fetch()...';
+            logBox.style.display = 'block';
+            logContent.textContent = 'Sending POST request to https://jsonplaceholder.typicode.com/posts...\nPayload:\n' + JSON.stringify(playlistData, null, 2);
+
+            console.log('[Task 1] Sending POST request with payload:', playlistData);
+
+            // 2. Use fetch() to POST JSON data
+            fetch('https://jsonplaceholder.typicode.com/posts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(playlistData)
+            })
+            .then(function (response) {
+                console.log('[Task 1] Response Status:', response.status);
+                return response.json();
+            })
+            .then(function (data) {
+                // Log the response data to the console as requested
+                console.log('[Task 1] API Response JSON:', data);
+
+                logContent.textContent = '✅ Fetch Successful!\nServer Response Status: 201 (Created)\n\nResponse Body:\n' + JSON.stringify(data, null, 2);
+                
+                // Reset form
+                form.reset();
+            })
+            .catch(function (error) {
+                console.error('[Task 1] Fetch error:', error);
+                logContent.textContent = '❌ Fetch Failed: ' + error.message;
+            })
+            .finally(function () {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Add Playlist (fetch)';
+            });
+        });
+    </script>
+</body>
+</html>
