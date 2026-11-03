@@ -1,0 +1,20 @@
+{
+  "name": "stayez",
+  "version": "1.0.0",
+  "description": "Vacation rental platform",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "node test.js"
+  },
+  "keywords": [
+    "vacation-rental",
+    "express",
+    "stayez"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.3.0"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "CinePass - Movie Booking API & Portal",
+  "description": "Node.js Express movie booking backend with /movies, /book-ticket, /search-movies, AI seat validation, and error handling middleware.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

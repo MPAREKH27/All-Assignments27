@@ -1,0 +1,25 @@
+{
+  "name": "poster-maker",
+  "version": "1.0.0",
+  "description": "Canva-like Poster Maker Express Application",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node test-api.js"
+  },
+  "keywords": [
+    "canva",
+    "poster-maker",
+    "express",
+    "multer",
+    "node"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^5.3.0",
+    "multer": "^2.5.0"
+  }
+}

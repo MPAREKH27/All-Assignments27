@@ -1,0 +1,4 @@
+Welcome to Playlist App
+
+cd playlist-app
+npm start
